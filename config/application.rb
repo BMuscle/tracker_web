@@ -11,6 +11,10 @@ module TrackerWeb
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 6.1
 
+    yaml_file = YAML.safe_load(ERB.new(Rails.root.join('config', 'config.yml').read).result)['tracker']
+    yaml_file.marge!(YAML.load_file(Rails.root.join('config', 'local_config.yml'))['tracker']) if File.exist?(Rails.root.join('config', 'local_config.yml'))
+    config.capybara_app_host = yaml_file['capybara_app_host']
+
     # Configuration for the application, engines, and railties goes here.
     #
     # These settings can be overridden in specific environments using the files

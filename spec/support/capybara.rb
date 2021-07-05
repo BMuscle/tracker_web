@@ -20,6 +20,6 @@ RSpec.configure do |config|
     driven_by :remote_chrome
     Capybara.server_host = '0.0.0.0'
     Capybara.server_port = 3000
-    Capybara.app_host='http://192.168.56.102:3000'
+    Capybara.app_host = "http://#{Rails.configuration.capybara_app_host}:3000"
   end
 end

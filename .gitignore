@@ -41,5 +41,6 @@ yarn-debug.log*
 
 # Ignore config file
 /config/database.yml
+/config/local_config.yml
 
 .vscode
