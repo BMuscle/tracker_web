@@ -1,0 +1,16 @@
+require:
+  - rubocop-rails
+  - rubocop-rspec
+
+Rails:
+  Enabled: true
+AllCops:
+  NewCops: enable
+  Exclude:
+    - 'vendor/**/*'
+    - 'spec/fixtures/**/*'
+    - 'tmp/**/*'
+    - 'mysql-data/**/*'
+  TargetRubyVersion: 2.7.2
+Documentation:
+  Enabled: false
