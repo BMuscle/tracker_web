@@ -1,0 +1,17 @@
+version: "3"
+services:
+  mysql:
+    container_name: db_mysql
+    image: mysql:8.0
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      TZ: Asia/Tokyo
+    volumes:
+      - ./mysql-data:/var/lib/mysql
+    ports:
+      - 3306:3306
+  selenium_chrome:
+    image: selenium/standalone-chrome-debug
+    logging:
+      driver: none
