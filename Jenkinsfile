@@ -1,10 +1,5 @@
 pipeline {
-  agent {
-    docker {
-      image 'ubuntbu'
-    }
-
-  }
+  agent none
   stages {
     stage('test') {
       agent any
