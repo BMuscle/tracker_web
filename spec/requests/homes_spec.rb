@@ -8,7 +8,7 @@ RSpec.describe 'Homes', type: :request do
 
     it 'タイトルを含むレスポンスが返ること' do
       request
-      expect(response.body).to eq({ 'title' => 'My name is rails' }.to_json)
+      expect(parsed_response_body).to eq({ title: 'My name is rails' })
     end
   end
 end

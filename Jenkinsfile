@@ -15,6 +15,7 @@ pipeline {
             sh 'bundle install --path vendor/bundle'
             sh 'cp config/database.yml.sample config/database.yml'
             sh 'bundle exec rails db:create db:migrate'
+            sh 'bundle exec rspec'
           }
         }
       }
