@@ -12,6 +12,7 @@ AllCops:
     - 'tmp/**/*'
     - 'mysql-data/**/*'
     - 'bin/**/*'
+    - 'front/**/*'
   TargetRubyVersion: 2.7.2
 Documentation:
   Enabled: false

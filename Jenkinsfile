@@ -13,7 +13,6 @@ pipeline {
           testImage.inside("--link ${c.id}:db -e TRACKER_DATABASE_PORT=3306 -e TRACKER_DATABASE_HOST=db") {
             sh 'ruby -v'
             sh 'bundle install --path vendor/bundle'
-            sh 'yarn install'
             sh 'cp config/database.yml.sample config/database.yml'
             sh 'bundle exec rails db:create db:migrate'
           }
