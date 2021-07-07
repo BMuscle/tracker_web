@@ -25,6 +25,10 @@ module TrackerWeb
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 6.1
+    # not csrf token
+    config.action_controller.default_protect_from_forgery = true
+    # using Cookie
+    config.middleware.use ActionDispatch::Cookies
 
     yaml_file = YAML.safe_load(ERB.new(Rails.root.join('config/config.yml').read).result)['tracker']
     if File.exist?(Rails.root.join('config/local_config.yml'))
