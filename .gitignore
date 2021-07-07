@@ -21,26 +21,17 @@
 # Ignore uploaded files in development.
 /storage/*
 !/storage/.keep
-
-/public/assets
 .byebug_history
 
 # Ignore master key for decrypting credentials and more.
 /config/master.key
 
-/vendor/bundle
-
 /mysql-data/*
-
-/public/packs
-/public/packs-test
-/node_modules
-/yarn-error.log
-yarn-debug.log*
-.yarn-integrity
 
 # Ignore config file
 /config/database.yml
 /config/local_config.yml
 
 .vscode
+
+/vendor/*

@@ -11,6 +11,7 @@ AllCops:
     - 'spec/fixtures/**/*'
     - 'tmp/**/*'
     - 'mysql-data/**/*'
+    - 'bin/**/*'
   TargetRubyVersion: 2.7.2
 Documentation:
   Enabled: false

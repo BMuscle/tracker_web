@@ -20,8 +20,8 @@ require 'rspec/rails'
 # The following line is provided for convenience purposes. It has the downside
 # of increasing the boot-up time by auto-requiring all files in the support
 # directory. Alternatively, in the individual `*_spec.rb` files, manually
-
 # require only the support files necessary.
+#
 Dir[Rails.root.join('spec/support/**/*.rb')].sort.each { |f| require f }
 
 # Checks for pending migrations and applies them before tests are run.
@@ -35,6 +35,7 @@ end
 RSpec.configure do |config|
   # include FactoryBot
   config.include FactoryBot::Syntax::Methods
+
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
 
