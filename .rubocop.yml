@@ -22,3 +22,8 @@ Layout/LineLength:
 Rails/BulkChangeTable:
   Exclude:
     - 'db/migrate/20210707041603_devise_create_users.rb'
+RSpec/ContextWording:
+  Enabled: false
+Metrics/BlockLength:
+  Exclude:
+    - 'spec/**/*'

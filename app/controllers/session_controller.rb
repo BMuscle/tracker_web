@@ -17,8 +17,11 @@ class SessionController < ApplicationController
   end
 
   def log_out
-    sign_out current_user
-    head :no_content
+    if sign_out current_user
+      head :no_content
+    else
+      head :not_found
+    end
   end
 
   private
