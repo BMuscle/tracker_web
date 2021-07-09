@@ -12,7 +12,7 @@ import axios from '@/plugins/axios'
 
 @Component
 export default class Home extends Vue {
-  logOut () {
+  logOut (): void {
     axios.post('/log_out').then(() => {
       this.$router.push('/')
     })

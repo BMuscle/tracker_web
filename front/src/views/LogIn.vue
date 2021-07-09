@@ -18,7 +18,7 @@ export default class LogIn extends Vue {
   email = ''
   password = ''
 
-  logIn () {
+  logIn (): void {
     axios
       .post('/log_in', {
         user: {

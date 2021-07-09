@@ -24,7 +24,7 @@ export default class SignUp extends Vue {
   password = ''
   passwordConfirimation = ''
 
-  signUp () {
+  signUp (): void {
     axios
       .post('/sign_up', {
         user: {
