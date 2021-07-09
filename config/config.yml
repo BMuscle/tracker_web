@@ -1,2 +1,3 @@
 tracker:
-  empty: 0
+  allow_origins:
+    - '<%= ENV['TRACKER_ALLOW_ORIGINS'] %>'

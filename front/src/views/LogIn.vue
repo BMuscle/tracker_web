@@ -20,14 +20,17 @@ export default class LogIn extends Vue {
 
   logIn () {
     axios
-      .post('/api/log_in', {
+      .post('/log_in', {
         user: {
           email: this.email,
           password: this.password
         }
       })
       .then(() => {
-        this.$router.push('/home')
+        this.$router.push('/')
+      })
+      .catch(err => {
+        console.log(err)
       })
   }
 }

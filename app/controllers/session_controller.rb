@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class SessionController < ApplicationController
+  skip_before_action :authenticate_user
+
   def log_in
     user = User.find_for_database_authentication(email: user_params[:email])
 
@@ -8,15 +10,15 @@ class SessionController < ApplicationController
 
     if user.valid_password?(user_params[:password])
       sign_in :user, user
-      render :no_content
+      head :no_content
     else
       head :not_found
     end
   end
 
   def log_out
-    log_out current_user
-    render :no_content
+    sign_out current_user
+    head :no_content
   end
 
   private

@@ -1,16 +1,21 @@
 # frozen_string_literal: true
 
 class UsersController < ApplicationController
-  before_action :account_login
+  skip_before_action :authenticate_user, only: :sign_up
 
   def show
     render json: { email: current_user[:email] }
   end
 
+  # Do not start session
+  def sign_up
+    User.create!(user_params)
+    head :no_content
+  end
+
   private
 
-  # I don't want to redirect because it's an API. So don't use authenticate_account
-  def user_login
-    return render json: {} unless user_signed_in?
+  def user_params
+    params.require(:user).permit(:email, :password, :password_confirmation)
   end
 end
