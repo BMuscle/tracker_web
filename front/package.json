@@ -42,6 +42,7 @@
     "env": {
       "node": true
     },
+    "ignorePatterns": ["vue.config.js"],
     "extends": [
       "plugin:vue/essential",
       "@vue/standard",

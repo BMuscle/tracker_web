@@ -1,7 +1,8 @@
 import axios from 'axios'
+import config from 'config'
 
 export default axios.create({
-  baseURL: 'http://192.168.56.101:3000',
+  baseURL: config.back_end_api_url,
   headers: {
     'X-Requested-With': 'XMLHttpRequest'
   },
