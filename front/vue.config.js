@@ -1,11 +1,10 @@
+const path = require('path')
+
 module.exports = {
-  devServer: {
-    // Railsにアクセスするためのポートを指定する
-    proxy: {
-      '/api': {
-        target: 'http://localhost:3000',
-        pathRewrite: { '^/api/': '/' },
-        logLevel: 'debug'
+  configureWebpack: {
+    resolve: {
+      alias: {
+        config: path.resolve(`src/config/${process.env.NODE_ENV}.ts`)
       }
     }
   }

@@ -16,3 +16,14 @@ AllCops:
   TargetRubyVersion: 2.7.2
 Documentation:
   Enabled: false
+Layout/LineLength:
+  Exclude:
+    - 'config/initializers/devise.rb'
+Rails/BulkChangeTable:
+  Exclude:
+    - 'db/migrate/20210707041603_devise_create_users.rb'
+RSpec/ContextWording:
+  Enabled: false
+Metrics/BlockLength:
+  Exclude:
+    - 'spec/**/*'

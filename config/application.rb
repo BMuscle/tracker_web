@@ -25,11 +25,17 @@ module TrackerWeb
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 6.1
+    # not csrf token
+    config.action_controller.default_protect_from_forgery = true
+    # using Cookie
+    config.middleware.use ActionDispatch::Cookies
+    config.middleware.use ActionDispatch::Session::CookieStore
 
     yaml_file = YAML.safe_load(ERB.new(Rails.root.join('config/config.yml').read).result)['tracker']
     if File.exist?(Rails.root.join('config/local_config.yml'))
       yaml_file.merge!(YAML.load_file(Rails.root.join('config/local_config.yml'))['tracker'])
     end
+    config.allow_origins = yaml_file['allow_origins']
     # Configuration for the application, engines, and railties goes here.
     #
     # These settings can be overridden in specific environments using the files
