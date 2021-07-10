@@ -55,7 +55,7 @@ RSpec.describe 'Sessions', type: :request do
 
     context 'ログインしている場合' do
       before do
-        log_in(user)
+        log_in user
       end
 
       it '204が返ること' do
