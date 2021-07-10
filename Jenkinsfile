@@ -11,11 +11,10 @@ pipeline {
           }
           def testImage = docker.build("test-image", "./.jenkins/rspec")
           testImage.inside("--link ${c.id}:db -e TRACKER_DATABASE_PORT=3306 -e TRACKER_DATABASE_HOST=db") {
-            sh 'ruby -v'
             sh 'bundle install --path vendor/bundle'
             sh 'cp config/database.yml.sample config/database.yml'
             sh 'bundle exec rails db:create db:migrate'
-            sh 'bundle exec rspec'
+            sh 'bundle exec rspec --format p'
           }
         }
       }
