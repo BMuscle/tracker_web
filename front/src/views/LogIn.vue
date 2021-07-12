@@ -2,9 +2,19 @@
   <div class="log-in">
     <div>
       <div>ログインページ</div>
-      <input type="text" v-model="email" placeholder="NAME" /><br />
-      <input type="password" v-model="password" placeholder="PASSWORD" /><br />
-      <button @click="logIn()">LOG_IN</button>
+      <input
+        name="email"
+        type="text"
+        v-model="email"
+        placeholder="NAME"
+      /><br />
+      <input
+        name="password"
+        type="password"
+        v-model="password"
+        placeholder="PASSWORD"
+      /><br />
+      <button id="log_in" @click="logIn()">LOG_IN</button>
     </div>
   </div>
 </template>

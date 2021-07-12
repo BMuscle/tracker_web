@@ -1,3 +1,0 @@
-export default {
-  web_api_url: 'http://localhost:3000'
-}

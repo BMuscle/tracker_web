@@ -1,7 +1,7 @@
 <template>
-  <div class="home_contents">
+  <div class="home-contents">
     <h1>{{ title }}</h1>
-    {{ email }}
+    <div class="email">{{ email }}</div>
   </div>
 </template>
 
