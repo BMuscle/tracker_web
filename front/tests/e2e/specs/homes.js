@@ -33,6 +33,7 @@ describe('Home Page', () => {
       cy.visit('/')
     })
     it('', () => {
+      cy.contains('My name is rails')
       cy.get('.email').should('be.empty')
     })
   })

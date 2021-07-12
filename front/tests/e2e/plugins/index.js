@@ -10,7 +10,7 @@
 // const webpack = require('@cypress/webpack-preprocessor')
 
 /* eslint @typescript-eslint/no-var-requires: 0 */
-const exec = require('child_process').exec
+const execSync = require('child_process').execSync
 
 module.exports = (on, config) => {
   // on('file:preprocessor', webpack({
@@ -23,7 +23,8 @@ module.exports = (on, config) => {
         method: 'create',
         data: data
       }
-      exec(`bundle exec rails runner -e test ./../scripts/e2e/factory.rb '${JSON.stringify(args)}'`)
+      const result = execSync(`cd ../ && bundle exec rails runner -e test ./scripts/e2e/factory.rb '${JSON.stringify(args)}'`)
+      console.log('result=', result.toString())
       return null
     }
   })
