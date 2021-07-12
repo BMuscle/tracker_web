@@ -1,3 +1,3 @@
 export default {
-  web_api_url: ''
+  back_end_api_url: 'http://localhost:3000'
 }
