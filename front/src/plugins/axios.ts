@@ -1,8 +1,7 @@
 import axios from 'axios'
-import config from 'config'
 
 export default axios.create({
-  baseURL: config.back_end_api_url,
+  baseURL: process.env.VUE_APP_BACK_END_API_URL,
   headers: {
     'X-Requested-With': 'XMLHttpRequest'
   },

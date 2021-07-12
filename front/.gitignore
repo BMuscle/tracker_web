@@ -5,6 +5,7 @@ node_modules
 
 # local env files
 .env.local
+.env.test
 .env.*.local
 
 # Log files
@@ -21,9 +22,6 @@ pnpm-debug.log*
 *.njsproj
 *.sln
 *.sw?
-
-# Config Files
-/src/config/developments.ts
 
 # cypress tmp files
 /tests/e2e/screenshots/
