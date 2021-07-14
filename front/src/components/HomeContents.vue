@@ -1,6 +1,6 @@
 <template>
   <div class="home-contents">
-    <h1>{{ title }}</h1>
+    <h1 class="title">{{ title }}</h1>
     <div class="email">{{ email }}</div>
   </div>
 </template>
@@ -32,4 +32,11 @@ export default class Home extends Vue {
 }
 </script>
 
-<style scoped></style>
+<style scoped lang="scss">
+.home-contents {
+  .title {
+    font-size: 1.5em;
+    color: #f00;
+  }
+}
+</style>
