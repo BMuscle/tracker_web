@@ -1,0 +1,7 @@
+vendor/bundle
+mysql-data
+log
+front/node_modules
+front/dist
+front/tests/e2e/screenshots
+front/tests/e2e/videos
