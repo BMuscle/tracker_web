@@ -39,16 +39,14 @@ pipeline {
               sh 'bundle exec rails s -b localhost -e test -d'
               sh 'cd ./front && yarn install'
               sh 'cd ./front && yarn cypress install'
-              sh 'cd ./front && yarn test:e2e_cli'
+              sh 'cd ./front && if yarn test:e2e_cli; then chmod -R a+w ./tests/e2e/ ./node_modules; else chmod -R a+w ./tests/e2e/ ./node_modules; exit 1; fi'
             }
           }
         }
 
       }
     }
-
   }
 }
-
 }
 }
