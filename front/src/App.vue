@@ -1,34 +1,12 @@
 <template>
-  <div id="app">
-    <div id="nav">
+  <v-app>
+    <v-system-bar app>
       <router-link to="/">Home</router-link> |
       <router-link to="/log_in">LogIn</router-link> |
       <router-link to="/sign_up">SignUp</router-link> |
       <router-link to="/about">About</router-link>
-    </div>
+    </v-system-bar>
+
     <router-view />
-  </div>
+  </v-app>
 </template>
-
-<style>
-#app {
-  color: #2c3e50;
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-}
-
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  color: #2c3e50;
-  font-weight: bold;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
-</style>
