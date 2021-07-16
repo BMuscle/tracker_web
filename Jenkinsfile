@@ -8,7 +8,6 @@ pipeline {
           def testImage = docker.build("test-image", "./.jenkins/rspec")
           testImage.inside('-e HOME="/tmp/bundler/${JOB_NAME}/${BUILD_NUMBER}"') {
             sh 'mkdir -p "/tmp/bundler/${JOB_NAME}/${BUILD_NUMBER}"'
-            sh 'bundle config set path "./vendor/bundle"'
             sh 'cp config/database.yml.sample config/database.yml'
           }
         }
@@ -42,16 +41,32 @@ pipeline {
           sh 'while ! mysqladmin ping -hdb --silent; do sleep 1; done'
         }
         def testImage = docker.build("test-image", "./.jenkins/e2e")
-        testImage.inside("--link ${c.id}:db -e TRACKER_DATABASE_PORT=3306 -e TRACKER_DATABASE_HOST=db -e TRACKER_ALLOW_ORIGINS=localhost:8080 -e VUE_APP_BACK_END_API_URL=http://localhost:3000 -u root") {
-          sh 'bundle config set path "./vendor/bundle" && bundle install --without development && bundle exec rails db:create db:migrate RAILS_ENV=test'
-          sh 'bundle exec rails s -b localhost -e test -d'
-          sh 'cd ./front && yarn install'
-          sh 'cd ./front && yarn cypress install'
-          sh 'cd ./front && if yarn test:e2e_cli; then chmod -R a+w ./tests/e2e/ ./node_modules; else chmod -R a+w ./tests/e2e/ ./node_modules; exit 1; fi'
+        testImage.inside("--link ${c.id}:db -e TRACKER_DATABASE_PORT=3306 -e TRACKER_DATABASE_HOST=db -e TRACKER_ALLOW_ORIGINS=localhost:8080 -e VUE_APP_BACK_END_API_URL=http://localhost:3000 -e HOME=\"/tmp/bundler/${JOB_NAME}/${BUILD_NUMBER}\"") {
+            sh 'bundle config set path "./vendor/bundle" && bundle install --without development && bundle exec rails db:create db:migrate RAILS_ENV=test'
+            sh 'bundle exec rails s -b localhost -e test -d'
+            sh 'cd ./front && yarn install'
+            sh 'cd ./front && yarn test:e2e_cli'
+          }
         }
       }
     }
   }
-}
+
+  stage('reviewdog') {
+    environment {
+      REVIEWDOG_GITHUB_API_TOKEN = credentials('BMuscleBot')
+    }
+
+    steps {
+      script {
+        def testImage = docker.build("test-image", "./.jenkins/reviewdog")
+        testImage.inside('-e REVIEWDOG_INSECURE_SKIP_VERIFY=true -e REVIEWDOG_GITHUB_API_TOKEN=${REVIEWDOG_GITHUB_API_TOKEN} -e CI_COMMIT=${GIT_COMMIT} -e CI_PULL_REQUEST=${CHANGE_ID} -e CI_REPO_NAME=tracker_web -e CI_REPO_OWNER=BMuscle -e HOME="/tmp/bundler/${JOB_NAME}/${BUILD_NUMBER}"') {
+            sh 'bundle config set path "./vendor/bundle" && bundle install --without development'
+            sh 'cd ./front && yarn install'
+            sh 'bundle exec rubocop | reviewdog -f=rubocop -reporter=github-pr-review -filter-mode=file'
+        }
+      }
+    }
+  }
 }
 }
