@@ -27,6 +27,7 @@ pipeline {
               sh 'cd ./front && yarn install'
               sh 'bundle exec rubocop | reviewdog -f=rubocop -reporter=github-pr-review -filter-mode=file'
               sh 'cd ./front && yarn -s lint --no-fix --format stylish | reviewdog -f=eslint -reporter=github-pr-review -filter-mode=file'
+              sh 'cd ./front && yarn -s lint-css | reviewdog -f=stylelint -reporter=github-pr-review -filter-mode=file'
           }
         }
       }
