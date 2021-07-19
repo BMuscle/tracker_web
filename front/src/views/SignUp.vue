@@ -7,7 +7,7 @@
       <input
         type="password"
         v-model="passwordConfirimation"
-        placeholder="PASSWORD_CONFIRIMATION"
+        placeholder="PASSWORD_CONFIRMATION"
       /><br />
       <button @click="signUp()">SIGN_UP</button>
     </div>
@@ -22,7 +22,7 @@ import axios from '@/plugins/axios'
 export default class SignUp extends Vue {
   email = ''
   password = ''
-  passwordConfirimation = ''
+  passwordConfirmation = ''
 
   signUp (): void {
     axios
@@ -30,7 +30,7 @@ export default class SignUp extends Vue {
         user: {
           email: this.email,
           password: this.password,
-          password_confirimation: this.passwordConfirimation
+          password_confirmation: this.passwordConfirmation
         }
       })
       .then(() => {
