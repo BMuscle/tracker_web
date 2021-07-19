@@ -3,7 +3,7 @@
 describe('Home Page', () => {
   beforeEach(() => {
     cy.exec('bundle exec rails db:reset RAILS_ENV=test')
-    cy.task('dbCreate', [
+    cy.task('dbUserCreate', [
       {
         model: 'User',
         params: {

@@ -36,6 +36,7 @@ module TrackerWeb
       yaml_file.merge!(YAML.load_file(Rails.root.join('config/local_config.yml'))['tracker'])
     end
     config.allow_origins = yaml_file['allow_origins']
+    config.front_url = yaml_file['front_url']
     # Configuration for the application, engines, and railties goes here.
     #
     # These settings can be overridden in specific environments using the files

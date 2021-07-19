@@ -1,3 +1,5 @@
 tracker:
   allow_origins:
     - '<%= ENV['TRACKER_ALLOW_ORIGINS'] %>'
+  front_url: '<%= ENV['TRACKER_FRONT_URL'] %>'
+

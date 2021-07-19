@@ -7,7 +7,7 @@ RSpec.describe 'Sessions', type: :request do
     subject(:request) { post log_in_path, params: params, headers: { 'X-Requested-With' => 'XMLHttpRequest' } }
 
     let(:password) { 'password' }
-    let(:user) { create(:user, password: password, password_confirmation: password) }
+    let(:user) { create(:confirmed_user, password: password, password_confirmation: password) }
     let(:params) { { user: { email: user.email, password: password } } }
 
     before do
@@ -51,7 +51,7 @@ RSpec.describe 'Sessions', type: :request do
     subject(:request) { post log_out_path, headers: { 'X-Requested-With' => 'XMLHttpRequest' } }
 
     let(:password) { 'password' }
-    let(:user) { create(:user, password: password, password_confirmation: password) }
+    let(:user) { create(:confirmed_user, password: password, password_confirmation: password) }
 
     context 'ログインしている場合' do
       before do
