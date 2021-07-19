@@ -16,3 +16,8 @@ services:
       driver: none
     ports:
       - 4444:4444
+  mailcatcher:
+    image: schickling/mailcatcher
+    ports:
+      - "1080:1080"
+      - "1025:1025"
