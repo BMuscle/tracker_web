@@ -1,14 +1,12 @@
 <template>
   <v-app>
-    <v-system-bar app>
-      <router-link to="/">Home</router-link> |
-      <router-link to="/log_in">LogIn</router-link> |
-      <router-link to="/sign_up">SignUp</router-link> |
-      <router-link to="/about">About</router-link>
-    </v-system-bar>
-
-    <v-main>
-      <router-view />
-    </v-main>
+    <router-view />
   </v-app>
 </template>
+
+<script lang="ts">
+import { Component, Vue } from 'vue-property-decorator'
+
+@Component
+export default class App extends Vue {}
+</script>

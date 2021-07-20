@@ -37,7 +37,7 @@ export default class LogIn extends Vue {
         }
       })
       .then(() => {
-        this.$router.push('/')
+        this.$router.push('/dashboard')
       })
       .catch(err => {
         console.log(err)
