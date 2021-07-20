@@ -1,7 +1,12 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  devise_for :users, skip: %i[sessions passwords registrations]
+  devise_for :users, skip: %i[sessions passwords registrations confirmations]
+  devise_scope :user do
+    get 'users/confirmation/new', to: 'users/confirmations#new', as: :new_user_confirmation
+    post 'users/confirmation', to: 'users/confirmations#create', as: :user_confirmation
+    post 'users/confirmation/authenticate', to: 'users/confirmations#authenticate'
+  end
 
   resources :homes
 

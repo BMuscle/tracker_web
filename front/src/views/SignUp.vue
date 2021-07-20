@@ -6,7 +6,7 @@
       <input type="password" v-model="password" placeholder="PASSWORD" /><br />
       <input
         type="password"
-        v-model="passwordConfirimation"
+        v-model="passwordConfirmation"
         placeholder="PASSWORD_CONFIRMATION"
       /><br />
       <button @click="signUp()">SIGN_UP</button>

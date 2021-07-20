@@ -7,6 +7,8 @@
       <router-link to="/about">About</router-link>
     </v-system-bar>
 
-    <router-view />
+    <v-main>
+      <router-view />
+    </v-main>
   </v-app>
 </template>
