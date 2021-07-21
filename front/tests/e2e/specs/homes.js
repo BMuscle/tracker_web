@@ -3,7 +3,7 @@
 describe('Home Page', () => {
   beforeEach(() => {
     cy.exec('bundle exec rails db:reset RAILS_ENV=test')
-    cy.task('dbCreate', [
+    cy.task('dbUserCreate', [
       {
         model: 'User',
         params: {
@@ -21,10 +21,14 @@ describe('Home Page', () => {
       cy.get('input[name=email]').type('test@example.com')
       cy.get('input[name=password]').type('password')
       cy.get('#log_in').click()
+      cy.visit('/')
     })
 
-    it('Homeページに遷移し、Emailが表示されること', () => {
-      cy.contains('test@example.com')
+    it('ナビゲーションバーがログイン状態用の表示になっていること', () => {
+      cy.get('#public_navigation_bar').contains('button', 'ログアウト')
+      cy.get('#public_navigation_bar').contains('button', 'ダッシュボード')
+      cy.get('#public_navigation_bar').contains('button', 'ログイン').should('not.exist')
+      cy.get('#public_navigation_bar').contains('button', 'サインアップ').should('not.exist')
     })
   })
 
@@ -32,9 +36,11 @@ describe('Home Page', () => {
     beforeEach(() => {
       cy.visit('/')
     })
-    it('', () => {
-      cy.contains('My name is rails')
-      cy.get('.email').should('be.empty')
+    it('ナビゲーションばーがログアウト状態用の表示になっていること', () => {
+      cy.get('#public_navigation_bar').contains('button', 'ログイン')
+      cy.get('#public_navigation_bar').contains('button', 'サインアップ')
+      cy.get('#public_navigation_bar').contains('button', 'ログアウト').should('not.exist')
+      cy.get('#public_navigation_bar').contains('button', 'ダッシュボード').should('not.exist')
     })
   })
 })

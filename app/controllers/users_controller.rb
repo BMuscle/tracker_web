@@ -9,8 +9,13 @@ class UsersController < ApplicationController
 
   # Do not start session
   def sign_up
-    User.create!(user_params)
-    head :no_content
+    create_user_params = user_params
+    if create_user_params[:password] == create_user_params[:password_confirmation]
+      User.create!(create_user_params)
+      head :no_content
+    else
+      head :bad_request
+    end
   end
 
   private

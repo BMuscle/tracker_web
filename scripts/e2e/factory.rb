@@ -17,7 +17,13 @@ class Factory
   end
 
   def db_update(model_class, params)
-    model_class.update!(params)
+    p model_class.update!(params)
+  end
+
+  def db_user_create(model_class, params)
+    user = model_class.create!(params)
+    user.confirm
+    p user
   end
 end
 

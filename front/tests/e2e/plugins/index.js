@@ -26,6 +26,15 @@ module.exports = (on, config) => {
       const result = execSync(`cd ../ && bundle exec rails runner -e test ./scripts/e2e/factory.rb '${JSON.stringify(args)}'`)
       console.log('result=', result.toString())
       return null
+    },
+    dbUserCreate (data) {
+      const args = {
+        method: 'user_create',
+        data: data
+      }
+      const result = execSync(`cd ../ && bundle exec rails runner -e test ./scripts/e2e/factory.rb '${JSON.stringify(args)}'`)
+      console.log('result=', result.toString())
+      return null
     }
   })
 
