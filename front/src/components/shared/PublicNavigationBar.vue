@@ -6,7 +6,7 @@
         HOME
       </v-btn>
     </router-link>
-    <div v-if="isLogind">
+    <div v-if="isLoggedIn">
       <router-link to="/dashboard" v-slot="{ navigate }">
         <v-btn @click="navigate" class="nav-item">
           ダッシュボード
@@ -40,7 +40,7 @@ import LogOutButton from '@/components/shared/LogOutButton.vue'
   }
 })
 export default class PublicNavigationBar extends Vue {
-  get isLogind (): boolean {
+  get isLoggedIn (): boolean {
     return UserModule.isLogIn
   }
 }

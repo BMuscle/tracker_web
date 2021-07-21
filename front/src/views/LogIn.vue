@@ -37,7 +37,11 @@ export default class LogIn extends Vue {
         }
       })
       .then(() => {
-        this.$router.push('/dashboard')
+        if (typeof this.$route.query.redirect === 'string') {
+          this.$router.push(this.$route.query.redirect)
+        } else {
+          this.$router.push('/dashboard')
+        }
       })
       .catch(err => {
         console.log(err)
