@@ -5,6 +5,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import axios from '@/plugins/axios'
+import ToastModule from '@/store/modules/toast'
 
 @Component
 export default class UserConfirmation extends Vue {
@@ -13,8 +14,10 @@ export default class UserConfirmation extends Vue {
       await axios.post('/users/confirmation/authenticate', {
         confirmation_token: this.$route.query.confirmation_token
       })
+      ToastModule.pushNotice('認証に成功しました。')
       this.$router.push('/log_in')
     } catch (error) {
+      ToastModule.pushNotice('認証に失敗しました。')
       console.log(error.response)
     }
   }

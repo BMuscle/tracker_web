@@ -10,6 +10,7 @@
       <div class="email">
         {{ email }}
       </div>
+      <toast />
     </v-main>
   </div>
 </template>
@@ -17,15 +18,16 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import LogOutButton from '@/components/shared/LogOutButton.vue'
+import Toast from '@/components/shared/Toast.vue'
 import UserModule from '@/store/modules/user'
 
 @Component({
   components: {
-    LogOutButton
+    LogOutButton,
+    Toast
   }
 })
 export default class Dashboard extends Vue {
-  // ログインしている場合にアクセスできるメイン画面
   email = ''
 
   async mounted (): Promise<void> {
