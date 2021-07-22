@@ -1,6 +1,6 @@
 <template>
   <v-btn @click="logOut" class="log-out-link">
-    ログアウト
+    {{ $t('word.log_out') }}
   </v-btn>
 </template>
 

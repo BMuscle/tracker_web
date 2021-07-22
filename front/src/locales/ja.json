@@ -1,0 +1,34 @@
+{
+  "toast": {
+    "sent_a_verification_email": "認証メールを送信しました。ご確認下さい。",
+    "sign_up_failed": "登録に失敗しました。",
+    "log_in_failed": "ログインに失敗しました。",
+    "confirm_success": "認証に成功しました。",
+    "confirm_failed": "認証に失敗しました。"
+  },
+  "home": {
+    "name": "HOME"
+  },
+  "dashboard": {
+    "name": "ダッシュボード"
+  },
+  "log_in": {
+    "name": "ログイン"
+  },
+  "sign_up": {
+    "name": "アカウント登録"
+  },
+  "word": {
+    "log_out": "ログアウト"
+  },
+  "button": {
+    "regist": "登録"
+  },
+  "model": {
+    "user": {
+      "email": "Eメール",
+      "password": "パスワード",
+      "password_confirmation": "パスワード（確認用）"
+    }
+  }
+}
