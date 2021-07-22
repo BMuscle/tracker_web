@@ -1,14 +1,19 @@
 <template>
   <v-main class="log-in">
-    <div>ログインページ</div>
-    <input name="email" type="text" v-model="email" placeholder="NAME" /><br />
+    <div>{{ $t('log_in.name') }}</div>
+    <input
+      name="email"
+      type="text"
+      v-model="email"
+      :placeholder="$t('model.user.email')"
+    /><br />
     <input
       name="password"
       type="password"
       v-model="password"
-      placeholder="PASSWORD"
+      :placeholder="$t('model.user.password')"
     /><br />
-    <button id="log_in" @click="logIn()">ログイン</button>
+    <button id="log_in" @click="logIn()">{{ $t('log_in.name') }}</button>
     <toast />
   </v-main>
 </template>
@@ -17,6 +22,7 @@
 import { Component, Vue } from 'vue-property-decorator'
 import axios from '@/plugins/axios'
 import Toast from '@/components/shared/Toast.vue'
+import ToastModule from '@/store/modules/toast'
 
 @Component({
   components: {
@@ -44,6 +50,10 @@ export default class LogIn extends Vue {
       })
       .catch(err => {
         console.log(err)
+        ToastModule.pushNotice({
+          message: this.$t('toast.log_in_failed'),
+          notificationType: 'danger'
+        })
       })
   }
 }

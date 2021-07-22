@@ -1,14 +1,22 @@
 <template>
   <v-main class="sign-up">
-    <div>サインアップページ</div>
-    <input type="text" v-model="email" placeholder="EMAIL" /><br />
-    <input type="password" v-model="password" placeholder="PASSWORD" /><br />
+    <div>{{ $t('sign_up.name') }}</div>
+    <input
+      type="text"
+      v-model="email"
+      :placeholder="$t('model.user.email')"
+    /><br />
+    <input
+      type="password"
+      v-model="password"
+      :placeholder="$t('model.user.password')"
+    /><br />
     <input
       type="password"
       v-model="passwordConfirmation"
-      placeholder="PASSWORD_CONFIRMATION"
+      :placeholder="$t('model.user.password_confirmation')"
     /><br />
-    <button @click="signUp()">サインアップ</button>
+    <button @click="signUp()">{{ $t('button.regist') }}</button>
   </v-main>
 </template>
 
@@ -34,10 +42,17 @@ export default class SignUp extends Vue {
       })
       .then(() => {
         this.$router.push('/log_in')
-        ToastModule.pushNotice('認証メールを送信しました。ご確認下さい。')
+        ToastModule.pushNotice({
+          message: this.$t('toast.sent_a_verification_email'),
+          notificationType: 'info'
+        })
       })
       .catch(err => {
         console.log(err.response)
+        ToastModule.pushNotice({
+          message: this.$t('toast.sign_up_failed'),
+          notificationType: 'danger'
+        })
       })
   }
 }

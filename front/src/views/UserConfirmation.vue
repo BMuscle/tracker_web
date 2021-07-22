@@ -14,10 +14,16 @@ export default class UserConfirmation extends Vue {
       await axios.post('/users/confirmation/authenticate', {
         confirmation_token: this.$route.query.confirmation_token
       })
-      ToastModule.pushNotice('認証に成功しました。')
+      ToastModule.pushNotice({
+        message: this.$t('toast.confirm_success'),
+        notificationType: 'success'
+      })
       this.$router.push('/log_in')
     } catch (error) {
-      ToastModule.pushNotice('認証に失敗しました。')
+      ToastModule.pushNotice({
+        message: this.$t('toast.confirm_failed'),
+        notificationType: 'danger'
+      })
       console.log(error.response)
     }
   }

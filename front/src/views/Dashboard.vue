@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-system-bar app>
-      <router-link to="/">Home</router-link>
+      <router-link to="/">{{ $t('home.name') }}</router-link>
       <log-out-button />
     </v-system-bar>
 

@@ -3,13 +3,13 @@
     <v-spacer />
     <router-link to="/" v-slot="{ navigate }">
       <v-btn @click="navigate" class="nav-item">
-        HOME
+        {{ $t('home.name') }}
       </v-btn>
     </router-link>
     <div v-if="isLoggedIn">
       <router-link to="/dashboard" v-slot="{ navigate }">
         <v-btn @click="navigate" class="nav-item">
-          ダッシュボード
+          {{ $t('dashboard.name') }}
         </v-btn>
       </router-link>
       <log-out-button class="nav-item" />
@@ -17,12 +17,12 @@
     <div v-else>
       <router-link to="/log_in" v-slot="{ navigate }">
         <v-btn @click="navigate" class="nav-item">
-          ログイン
+          {{ $t('log_in.name') }}
         </v-btn>
       </router-link>
       <router-link to="/sign_up" v-slot="{ navigate }">
         <v-btn @click="navigate" class="nav-item">
-          サインアップ
+          {{ $t('sign_up.name') }}
         </v-btn>
       </router-link>
     </div>

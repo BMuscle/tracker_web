@@ -28,7 +28,7 @@ describe('Home Page', () => {
       cy.get('#public_navigation_bar').contains('button', 'ログアウト')
       cy.get('#public_navigation_bar').contains('button', 'ダッシュボード')
       cy.get('#public_navigation_bar').contains('button', 'ログイン').should('not.exist')
-      cy.get('#public_navigation_bar').contains('button', 'サインアップ').should('not.exist')
+      cy.get('#public_navigation_bar').contains('button', 'アカウント登録').should('not.exist')
     })
   })
 
@@ -38,7 +38,7 @@ describe('Home Page', () => {
     })
     it('ナビゲーションばーがログアウト状態用の表示になっていること', () => {
       cy.get('#public_navigation_bar').contains('button', 'ログイン')
-      cy.get('#public_navigation_bar').contains('button', 'サインアップ')
+      cy.get('#public_navigation_bar').contains('button', 'アカウント登録')
       cy.get('#public_navigation_bar').contains('button', 'ログアウト').should('not.exist')
       cy.get('#public_navigation_bar').contains('button', 'ダッシュボード').should('not.exist')
     })

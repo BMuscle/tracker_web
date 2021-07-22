@@ -1,5 +1,5 @@
 <template>
-  <v-snackbar v-model="snackbar" :timeout="timeout">
+  <v-snackbar v-model="snackbar" :timeout="timeout" :color="color">
     {{ message }}
   </v-snackbar>
 </template>
@@ -7,11 +7,13 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import ToastModule from '@/store/modules/toast'
+import { TranslateResult } from 'vue-i18n'
 
 @Component
 export default class Toast extends Vue {
   snackbar = false
   timeout = this.normal
+  color = ''
 
   get slow (): number {
     return 5000
@@ -25,7 +27,7 @@ export default class Toast extends Vue {
     return 3000
   }
 
-  get message (): string {
+  get message (): TranslateResult {
     const message = ToastModule.notificationMessage
     if (message === '') {
       return ''
@@ -41,10 +43,9 @@ export default class Toast extends Vue {
         this.timeout = this.fast
         break
     }
+    this.color = ToastModule.notificationColor
     this.snackbar = true
     return message
   }
 }
 </script>
-
-<style></style>
