@@ -32,3 +32,5 @@ Metrics/BlockLength:
     - 'spec/**/*'
 Style/AsciiComments:
   Enabled: false
+Rails/LexicallyScopedActionFilter:
+  Enabled: false

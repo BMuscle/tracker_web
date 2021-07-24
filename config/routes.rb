@@ -8,7 +8,8 @@ Rails.application.routes.draw do
     post 'users/confirmation/authenticate', to: 'users/confirmations#authenticate'
   end
 
-  resources :homes
+  resources :homes, only: :index
+  resources :teams, only: %i[index create]
 
   post '/log_in', to: 'session#log_in'
   post '/log_out', to: 'session#log_out'

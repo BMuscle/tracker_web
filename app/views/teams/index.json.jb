@@ -1,0 +1,19 @@
+# frozen_string_literal: true
+
+participating_teams = @participating_teams.map do |team|
+  {
+    id: team.id,
+    name: team.name
+  }
+end
+
+management_teams = @management_teams.map do |team|
+  {
+    id: team.id,
+    name: team.name
+  }
+end
+
+{
+  teams: participating_teams.concat(management_teams)
+}
