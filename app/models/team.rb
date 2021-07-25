@@ -25,4 +25,8 @@ class Team < ApplicationRecord
 
     Time.zone.now > invite_expired
   end
+
+  def already_user(user)
+    user_id == user.id || team_users.find_by(user_id: user).present?
+  end
 end

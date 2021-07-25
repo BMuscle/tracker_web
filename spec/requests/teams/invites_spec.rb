@@ -64,4 +64,75 @@ RSpec.describe 'Teams::Invites', type: :request do
       end
     end
   end
+
+  describe 'POST /invites' do
+    subject(:request) do
+      post teams_invites_confirm_path, params: { team: { guid: guid } },
+                                       headers: { 'X-Requested-With' => 'XMLHttpRequest' }
+    end
+
+    let(:user) { create(:confirmed_user) }
+
+    context 'ログイン済みの場合' do
+      before do
+        log_in user
+      end
+
+      context 'ログインユーザが未参加の正しい招待の場合' do
+        let(:team) { create(:team, :invited, :other_team) }
+        let(:guid) { team.invite_guid }
+
+        it '新規に参加すること' do
+          request
+          aggregate_failures do
+            expect(parsed_response_body).to include({ id: team.id, already: false })
+            expect(TeamUser).to exist(user: user, team: team)
+          end
+        end
+      end
+
+      context 'ログインユーザが参加済の正しい招待の場合' do
+        let(:team) { create(:team, :invited, :other_team) }
+        let(:team_user) { create(:team_user, user: user, team: team) }
+        let(:guid) { team.invite_guid }
+
+        before do
+          team_user
+        end
+
+        it '参加済みの情報が返ること' do
+          request
+          expect(parsed_response_body).to include({ id: team.id, already: true })
+        end
+      end
+
+      context 'ログインユーザが管理者の正しい招待の場合' do
+        let(:team) { create(:team, :invited, user: user) }
+        let(:guid) { team.invite_guid }
+
+        it '参加済みの情報が返ること' do
+          request
+          expect(parsed_response_body).to include({ id: team.id, already: true })
+        end
+      end
+
+      context '存在しない招待の場合' do
+        let(:guid) { 'xxxxxxxxxxxxxxxx' }
+
+        it 'RecordNotFoundが発生すること' do
+          expect { request }.to raise_error(ActiveRecord::RecordNotFound)
+        end
+      end
+    end
+
+    context 'ログインしていない場合' do
+      let(:team) { create(:team, :invited, :other_team) }
+      let(:guid) { team.invite_guid }
+
+      it '404が返ること' do
+        request
+        expect(response).to have_http_status(:not_found)
+      end
+    end
+  end
 end

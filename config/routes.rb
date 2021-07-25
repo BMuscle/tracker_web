@@ -13,6 +13,7 @@ Rails.application.routes.draw do
 
   namespace :teams do
     resources :invites, only: :update
+    post 'invites/confirm', to: 'invites#confirm'
   end
 
   post '/log_in', to: 'session#log_in'

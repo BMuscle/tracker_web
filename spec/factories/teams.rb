@@ -4,7 +4,7 @@ FactoryBot.define do
   factory :team do
     sequence(:name) { |n| "team_#{n}" }
 
-    factory :team_invite do
+    trait :invited do
       after(:create, &:update_invite!)
     end
 
