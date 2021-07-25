@@ -6,6 +6,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
+Component.registerHooks(['beforeRouteUpdate'])
 
 @Component
 export default class App extends Vue {}

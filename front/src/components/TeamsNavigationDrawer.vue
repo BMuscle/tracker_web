@@ -7,11 +7,16 @@
     color="#334257"
   >
     <div class="teams">
-      <div class="team" v-for="team in teams" :key="team.id">
+      <button
+        class="team"
+        v-for="team in teams"
+        :key="team.id"
+        @click="visitTeam(team.id)"
+      >
         <div class="name">
           {{ team.name }}
         </div>
-      </div>
+      </button>
     </div>
     <create-team @created-team="syncTeams()" />
   </v-navigation-drawer>
@@ -29,6 +34,12 @@ import CreateTeam from './teams_navigation_drawer/CreateTeam.vue'
 })
 export default class TeamsNavigationDrawer extends Vue {
   teams = []
+
+  visitTeam (teamId: number): void {
+    if (this.$route.params.id !== teamId.toString()) {
+      this.$router.push(`/dashboard/teams/${teamId}`)
+    }
+  }
 
   async syncTeams (): Promise<void> {
     const result = await axios.get('/teams')

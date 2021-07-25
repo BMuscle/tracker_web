@@ -5,6 +5,7 @@ import Login from '../views/LogIn.vue'
 import SignUp from '../views/SignUp.vue'
 import UserConfirmation from '../views/UserConfirmation.vue'
 import Dashboard from '../views/Dashboard.vue'
+import TeamDashBoard from '@/components/TeamDashboard.vue'
 import UserModule from '@/store/modules/user'
 
 Vue.use(VueRouter)
@@ -49,7 +50,14 @@ const routes: Array<RouteConfig> = [
     path: '/dashboard',
     name: 'Dashboard',
     component: Dashboard,
-    meta: { requireLogin: true }
+    meta: { requireLogin: true },
+    children: [
+      {
+        path: 'teams/:id',
+        name: 'TeamDashBoard',
+        component: TeamDashBoard
+      }
+    ]
   }
 ]
 
