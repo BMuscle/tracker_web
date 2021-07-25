@@ -27,11 +27,13 @@ RSpec.describe Team, type: :model do
 
       context 'nameが4文字未満の場合' do
         let(:team) { build(:team, user: user, name: 'a' * 3) }
+
         it_behaves_like 'invalid'
       end
 
       context 'nameが30文字より大きい場合' do
         let(:team) { build(:team, user: user, name: 'a' * 31) }
+
         it_behaves_like 'invalid'
       end
 
@@ -46,6 +48,39 @@ RSpec.describe Team, type: :model do
 
         it_behaves_like 'invalid'
       end
+    end
+  end
+
+  describe '#invite_in_expired?' do
+    subject { team.invite_in_expired? }
+
+    let(:user) { create(:user) }
+    let(:team) { create(:team, user: user) }
+
+    context 'guidとexpiredがnilの場合' do
+      before do
+        team
+      end
+
+      it { is_expected.to eq(true) }
+    end
+
+    context '期限内の場合' do
+      before do
+        team.update_invite
+      end
+
+      it { is_expected.to eq(false) }
+    end
+
+    context '期限切れの場合' do
+      before do
+        team.update_invite
+        travel 7.days
+        travel 1.hour
+      end
+
+      it { is_expected.to eq(true) }
     end
   end
 end

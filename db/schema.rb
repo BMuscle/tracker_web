@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_22_024701) do
+ActiveRecord::Schema.define(version: 2021_07_25_013357) do
 
   create_table "team_users", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "team_id"
@@ -27,6 +27,9 @@ ActiveRecord::Schema.define(version: 2021_07_22_024701) do
     t.bigint "user_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "invite_guid"
+    t.datetime "invite_expired"
+    t.index ["invite_guid"], name: "index_teams_on_invite_guid", unique: true
     t.index ["user_id"], name: "index_teams_on_user_id"
   end
 
