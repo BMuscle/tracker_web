@@ -5,6 +5,12 @@
       <log-out-button />
     </v-system-bar>
 
+    <v-app-bar app clipped-right> </v-app-bar>
+
+    <v-navigation-drawer app width="300" permanent color="gray">
+      <teams-navigation-drawer />
+    </v-navigation-drawer>
+
     <v-main>
       <router-view />
       <div class="email">
@@ -18,12 +24,14 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import LogOutButton from '@/components/shared/LogOutButton.vue'
+import TeamsNavigationDrawer from '@/components/TeamsNavigationDrawer.vue'
 import Toast from '@/components/shared/Toast.vue'
 import UserModule from '@/store/modules/user'
 
 @Component({
   components: {
     LogOutButton,
+    TeamsNavigationDrawer,
     Toast
   }
 })

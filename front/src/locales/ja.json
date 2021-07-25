@@ -4,7 +4,9 @@
     "sign_up_failed": "登録に失敗しました。",
     "log_in_failed": "ログインに失敗しました。",
     "confirm_success": "認証に成功しました。",
-    "confirm_failed": "認証に失敗しました。"
+    "confirm_failed": "認証に失敗しました。",
+    "regist_failed": "登録に失敗しました。",
+    "particpate_failed": "参加に失敗しました。"
   },
   "home": {
     "name": "HOME"
@@ -18,17 +20,28 @@
   "sign_up": {
     "name": "アカウント登録"
   },
+  "create_team": {
+    "title": "チーム登録"
+  },
   "word": {
     "log_out": "ログアウト"
   },
   "button": {
-    "regist": "登録"
+    "regist": "登録",
+    "particpate": "参加"
   },
   "model": {
     "user": {
       "email": "Eメール",
       "password": "パスワード",
       "password_confirmation": "パスワード（確認用）"
+    },
+    "team": {
+      "name": "チーム名"
     }
+  },
+  "validation": {
+    "required": "必須項目です",
+    "range_string": "{minLength}~{maxLength}文字で入力して下さい"
   }
 }

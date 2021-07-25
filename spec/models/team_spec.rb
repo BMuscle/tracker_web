@@ -25,6 +25,16 @@ RSpec.describe Team, type: :model do
         it_behaves_like 'invalid'
       end
 
+      context 'nameが4文字未満の場合' do
+        let(:team) { build(:team, user: user, name: 'a' * 3) }
+        it_behaves_like 'invalid'
+      end
+
+      context 'nameが30文字より大きい場合' do
+        let(:team) { build(:team, user: user, name: 'a' * 31) }
+        it_behaves_like 'invalid'
+      end
+
       context 'userがない場合' do
         let(:team) { build(:team, user: nil) }
 
