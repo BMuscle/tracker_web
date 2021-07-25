@@ -18,7 +18,11 @@ export default class DemoCreateInvite extends Vue {
   @Prop({ required: true }) teamId!: number
 
   get inviteUrl (): string | null {
-    return this.inviteGuid
+    if (this.inviteGuid == null) {
+      return null
+    } else {
+      return `${process.env.VUE_APP_FRONT_END_URL}/teams/invites/confirm?guid=${this.inviteGuid}`
+    }
   }
 
   updateInvite (): void {
