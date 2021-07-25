@@ -4,7 +4,7 @@ class UsersController < ApplicationController
   skip_before_action :authenticate_user, only: :sign_up
 
   def show
-    render json: { email: current_user[:email] }
+    render json: { id: current_user.id, email: current_user.email }
   end
 
   # Do not start session

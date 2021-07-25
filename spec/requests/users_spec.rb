@@ -15,7 +15,7 @@ RSpec.describe 'Users', type: :request do
 
       it 'ログインしているユーザー情報が取得できること' do
         request
-        expect(parsed_response_body).to eq({ email: user.email })
+        expect(parsed_response_body).to eq({ id: user.id, email: user.email })
       end
     end
 
