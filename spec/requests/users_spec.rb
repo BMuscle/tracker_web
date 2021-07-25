@@ -6,7 +6,7 @@ RSpec.describe 'Users', type: :request do
   describe 'GET /user' do
     subject(:request) { get '/user', headers: { 'X-Requested-With' => 'XMLHttpRequest' } }
 
-    let(:user) { create(:confirmed_user) }
+    let(:user) { create(:user, :confirmed) }
 
     context 'ログインしている場合' do
       before do

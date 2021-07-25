@@ -6,7 +6,7 @@ RSpec.describe 'Teams', type: :request do
   describe 'GET /teams' do
     subject(:request) { get teams_path, headers: { 'X-Requested-With' => 'XMLHttpRequest' } }
 
-    let(:user) { create(:confirmed_user) }
+    let(:user) { create(:user, :confirmed) }
 
     context 'ログイン済みの場合' do
       before do
@@ -27,7 +27,7 @@ RSpec.describe 'Teams', type: :request do
       end
 
       context 'ユーザが参加しているチームが存在する場合' do
-        let(:management_user) { create(:confirmed_user) }
+        let(:management_user) { create(:user, :confirmed) }
         let(:team) { create(:team, user: management_user) }
         let(:team_user) { create(:team_user, user: user, team: team) }
 
@@ -55,7 +55,7 @@ RSpec.describe 'Teams', type: :request do
       get team_path(team_id), headers: { 'X-Requested-With' => 'XMLHttpRequest' }
     end
 
-    let(:user) { create(:confirmed_user) }
+    let(:user) { create(:user, :confirmed) }
 
     context 'ログイン済みの場合' do
       before do
@@ -108,7 +108,7 @@ RSpec.describe 'Teams', type: :request do
       post teams_path, params: { team: team_params }, headers: { 'X-Requested-With' => 'XMLHttpRequest' }
     end
 
-    let(:user) { create(:confirmed_user) }
+    let(:user) { create(:user, :confirmed) }
 
     context 'ログイン済みの場合' do
       before do

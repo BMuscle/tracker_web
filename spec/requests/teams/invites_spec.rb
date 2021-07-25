@@ -8,7 +8,7 @@ RSpec.describe 'Teams::Invites', type: :request do
       put teams_invite_path(team_id), headers: { 'X-Requested-With' => 'XMLHttpRequest' }
     end
 
-    let(:user) { create(:confirmed_user) }
+    let(:user) { create(:user, :confirmed) }
 
     context 'ログイン済みの場合' do
       before do
@@ -71,7 +71,7 @@ RSpec.describe 'Teams::Invites', type: :request do
                                        headers: { 'X-Requested-With' => 'XMLHttpRequest' }
     end
 
-    let(:user) { create(:confirmed_user) }
+    let(:user) { create(:user, :confirmed) }
 
     context 'ログイン済みの場合' do
       before do
