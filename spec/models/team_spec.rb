@@ -88,8 +88,8 @@ RSpec.describe Team, type: :model do
     subject { described_class.can_take_teams(user).pluck(:id) }
 
     let(:user) { create(:user) }
-    let(:other_team) { create(:other_team) }
-    let(:other_invite_team) { create(:other_team_user) }
+    let(:other_team) { create(:team, :other_team) }
+    let(:other_invite_team) { create(:team_user, :other_team_user) }
 
     before do
       other_team
@@ -98,7 +98,7 @@ RSpec.describe Team, type: :model do
 
     context '参加中のチームが1つ管理中のチームが１つ存在する場合' do
       let(:team) { create(:team, user: user) }
-      let(:invite_team) { create(:other_team_user, user: user) }
+      let(:invite_team) { create(:team_user, :other_team_user, user: user) }
 
       before do
         team

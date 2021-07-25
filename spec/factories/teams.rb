@@ -8,7 +8,7 @@ FactoryBot.define do
       after(:create, &:update_invite!)
     end
 
-    factory :other_team do
+    trait :other_team do
       association :user
     end
   end

@@ -63,7 +63,7 @@ RSpec.describe 'Teams', type: :request do
       end
 
       context 'チームの参加者の場合' do
-        let(:invite_team) { create(:other_team_user, user: user) }
+        let(:invite_team) { create(:team_user, :other_team_user, user: user) }
         let(:team_id) { invite_team.team_id }
 
         it '参加チームの情報が返ること' do
@@ -93,7 +93,7 @@ RSpec.describe 'Teams', type: :request do
     end
 
     context 'ログインしていない場合' do
-      let(:invite_team) { create(:other_team_user, user: user) }
+      let(:invite_team) { create(:team_user, :other_team_user, user: user) }
       let(:team_id) { invite_team.team_id }
 
       it '404が返ること' do
