@@ -2,5 +2,7 @@
 
 {
   id: @team.id,
-  name: @team.name
+  name: @team.name,
+  invite_guid: @team.invite_guid,
+  invite_expired: @team.invite_in_expired?
 }

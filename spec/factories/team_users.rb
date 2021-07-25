@@ -2,6 +2,9 @@
 
 FactoryBot.define do
   factory :team_user do
-    # pass
+    factory :other_team_user do
+      association :user
+      association :team, factory: :other_team
+    end
   end
 end

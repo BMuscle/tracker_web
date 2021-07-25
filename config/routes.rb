@@ -9,7 +9,11 @@ Rails.application.routes.draw do
   end
 
   resources :homes, only: :index
-  resources :teams, only: %i[index create]
+  resources :teams, only: %i[index show create]
+
+  namespace :teams do
+    resources :invites, only: :update
+  end
 
   post '/log_in', to: 'session#log_in'
   post '/log_out', to: 'session#log_out'

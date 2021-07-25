@@ -9,10 +9,15 @@ class Team < ApplicationRecord
 
   validates :name, presence: true, length: { in: 4..30 }
 
-  def update_invite
+  scope :can_take_teams, lambda { |current_user|
+                           eager_load(:team_users)
+                             .where('teams.user_id = ? OR team_users.user_id = ?', current_user.id, current_user.id)
+                         }
+
+  def update_invite!
     self.invite_guid = generate_uuid(:invite_guid)
     self.invite_expired = Time.zone.now.since(7.days)
-    save
+    save!
   end
 
   def invite_in_expired?

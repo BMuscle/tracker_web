@@ -67,7 +67,7 @@ RSpec.describe Team, type: :model do
 
     context '期限内の場合' do
       before do
-        team.update_invite
+        team.update_invite!
       end
 
       it { is_expected.to eq(false) }
@@ -75,12 +75,41 @@ RSpec.describe Team, type: :model do
 
     context '期限切れの場合' do
       before do
-        team.update_invite
+        team.update_invite!
         travel 7.days
         travel 1.hour
       end
 
       it { is_expected.to eq(true) }
+    end
+  end
+
+  describe '.can_take_teams' do
+    subject { described_class.can_take_teams(user).pluck(:id) }
+
+    let(:user) { create(:user) }
+    let(:other_team) { create(:other_team) }
+    let(:other_invite_team) { create(:other_team_user) }
+
+    before do
+      other_team
+      other_invite_team
+    end
+
+    context '参加中のチームが1つ管理中のチームが１つ存在する場合' do
+      let(:team) { create(:team, user: user) }
+      let(:invite_team) { create(:other_team_user, user: user) }
+
+      before do
+        team
+        invite_team
+      end
+
+      it { is_expected.to match_array([team.id, invite_team.team_id]) }
+    end
+
+    context '参加・管理しているチームがない場合' do
+      it { is_expected.to eq([]) }
     end
   end
 end
