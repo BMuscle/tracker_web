@@ -7,8 +7,9 @@
     "confirm_failed": "認証に失敗しました。",
     "regist_failed": "登録に失敗しました。",
     "particpate_success": "参加に成功しました。",
+    "particpate_already": "既に参加しています。",
     "particpate_failed": "参加に失敗しました。",
-    "particpate_already": "既に参加しています。"
+    "particpate_expired": "招待用URLが期限切れです。"
   },
   "home": {
     "name": "HOME"

@@ -19,9 +19,12 @@ export default class TeamConfirmInvite extends Vue {
     })
   }
 
-  pushNoticeFailed (): void {
+  pushNoticeFailed (isExpired: boolean | null): void {
+    const message = isExpired
+      ? 'toast.particpate_expired'
+      : 'toast.particpate_failed'
     ToastModule.pushNotice({
-      message: this.$t('toast.particpate_failed'),
+      message: this.$t(message),
       notificationType: 'danger'
     })
   }
@@ -35,7 +38,7 @@ export default class TeamConfirmInvite extends Vue {
       this.pushNoticeSuccess(result.data.already)
     } catch (err) {
       this.$router.push('/dashboard')
-      this.pushNoticeFailed()
+      this.pushNoticeFailed(err.response.data.expired)
     }
   }
 }
