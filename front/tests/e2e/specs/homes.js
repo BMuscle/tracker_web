@@ -2,25 +2,13 @@
 
 describe('Home Page', () => {
   beforeEach(() => {
-    cy.exec('bundle exec rails db:reset RAILS_ENV=test')
-    cy.task('dbUserCreate', [
-      {
-        model: 'User',
-        params: {
-          email: 'test@example.com',
-          password: 'password',
-          password_confirmation: 'password'
-        }
-      }
-    ])
+    cy.dbReset()
+    cy.createLogInUser('test@example.com', 'password')
   })
 
   describe('ログインした時', () => {
     beforeEach(() => {
-      cy.visit('/log_in')
-      cy.get('input[name=email]').type('test@example.com')
-      cy.get('input[name=password]').type('password')
-      cy.get('#log_in').click()
+      cy.logIn('test@example.com', 'password')
       cy.visit('/')
     })
 
