@@ -116,6 +116,25 @@ RSpec.describe 'Teams::Invites', type: :request do
         end
       end
 
+      context 'ログインユーザが未参加で招待が期限切れの場合' do
+        let(:team) { create(:team, :invited, :other_team) }
+        let(:guid) { team.invite_guid }
+
+        before do
+          travel_to '2020-01-01T00:00:00+09:00'
+          team
+          travel_to '2020-01-08T00:00:01+09:00'
+        end
+
+        it '400が返り、期限切れが分かること' do
+          request
+          aggregate_failures do
+            expect(parsed_response_body).to include({ expired: true })
+            expect(response).to have_http_status(:bad_request)
+          end
+        end
+      end
+
       context '存在しない招待の場合' do
         let(:guid) { 'xxxxxxxxxxxxxxxx' }
 

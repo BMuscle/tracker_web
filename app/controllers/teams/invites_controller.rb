@@ -11,6 +11,8 @@ module Teams
       @team = Team.includes(:team_users).find_by!(invite_guid: team_invite_params[:guid])
       if @team.already_user(current_user)
         render json: { id: @team.id, already: true }
+      elsif @team.invite_in_expired?
+        render json: { expired: true }, status: :bad_request
       else
         TeamUser.create!(user: current_user, team: @team)
         render json: { id: @team.id, already: false }
