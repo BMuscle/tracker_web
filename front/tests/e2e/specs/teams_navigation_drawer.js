@@ -24,3 +24,7 @@ describe('TeamsNavigationDrawer Page', () => {
     })
   })
 })
+
+// まず、クリップボード
+// 次は、招待URL作成のテストを作る
+// 最後にJenkinsFileにChrome

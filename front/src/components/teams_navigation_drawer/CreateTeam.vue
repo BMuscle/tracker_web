@@ -94,7 +94,11 @@ export default class CreateTeam extends Vue {
 </script>
 
 <style scoped lang="scss">
-.create-team {
+#create_team {
+  text-align: center;
+}
+
+#create_team_button {
   background-color: #cae4db;
   border-radius: 50%;
   display: inline-block;

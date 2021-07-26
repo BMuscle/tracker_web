@@ -9,7 +9,9 @@
     "particpate_success": "参加に成功しました。",
     "particpate_already": "既に参加しています。",
     "particpate_failed": "参加に失敗しました。",
-    "particpate_expired": "招待用URLが期限切れです。"
+    "particpate_expired": "招待用URLが期限切れです。",
+    "successful_copy": "クリップボードにコピーしました。",
+    "unsuccessful_copy": "コピーに失敗しました。"
   },
   "home": {
     "name": "HOME"

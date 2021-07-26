@@ -1,10 +1,10 @@
 <template>
   <div id="team_dashboard">
     <div v-if="!isLoading">
-      <div>id: {{ id }}</div>
-      <div>name: {{ name }}</div>
-      <div>expired? {{ expired }}</div>
-      <demo-create-invite :teamId="$route.params.id" />
+      <div>id: {{ team.id }}</div>
+      <div>name: {{ team.name }}</div>
+      <div>expired? {{ team.isInviteExpired }}</div>
+      <demo-create-invite />
     </div>
   </div>
 </template>
@@ -12,8 +12,8 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import DemoCreateInvite from '@/components/team/DemoCreateInvite.vue'
-import axios from '@/plugins/axios'
 import { NavigationGuardNext, Route } from 'vue-router'
+import TeamModule, { Team } from '@/store/modules/team'
 
 @Component({
   components: {
@@ -21,16 +21,14 @@ import { NavigationGuardNext, Route } from 'vue-router'
   }
 })
 export default class TeamDashboard extends Vue {
-  id = null
-  name = ''
-  expired = null
   isLoading = true
 
   async syncTeam (): Promise<void> {
-    const response = await axios.get(`/teams/${this.$route.params.id}`)
-    this.id = response.data.id
-    this.name = response.data.name
-    this.expired = response.data.invite_expired
+    TeamModule.syncTeam(this.$route.params.id)
+  }
+
+  get team (): Team {
+    return TeamModule.team
   }
 
   async beforeRouteUpdate (
