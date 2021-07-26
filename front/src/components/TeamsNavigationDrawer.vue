@@ -1,6 +1,6 @@
 <template>
   <v-navigation-drawer
-    class="teams-navigation-drawer"
+    id="teams_navigation_drawer"
     width="70"
     absolute
     permanent

@@ -5,12 +5,12 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "test:e2e": "vue-cli-service test:e2e --mode test",
+    "test:e2e": "vue-cli-service test:e2e --mode test --browser chrome",
     "lint": "vue-cli-service lint",
     "fix-css": "stylelint \"**/*.vue\" \"**/*.css\" \"**/*.scss\" --fix",
     "i18n:report": "vue-cli-service i18n:report --src \"./src/**/*.?(js|vue)\" --locales \"./src/locales/**/*.json\"",
     "lint-css": "stylelint \"**/*.vue\" \"**/*.css\" \"**/*.scss\"",
-    "test:e2e_cli": "vue-cli-service test:e2e --mode test --headless"
+    "test:e2e_cli": "vue-cli-service test:e2e --mode test --headless --browser chrome"
   },
   "dependencies": {
     "axios": "^0.21.1",

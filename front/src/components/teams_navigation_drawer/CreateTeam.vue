@@ -1,9 +1,13 @@
 <template>
-  <div>
-    <button class="create-team" @click="openCreateTeam" />
+  <div id="create_team">
+    <button id="create_team_button" @click="openCreateTeam" />
     <v-dialog v-model="createTeamDialog" width="500">
       <v-card>
-        <v-form @submit.prevent="createTeam" ref="createTeamForm">
+        <v-form
+          @submit.prevent="createTeam"
+          ref="createTeamForm"
+          id="create_team_form"
+        >
           <v-card-title>
             {{ $t('create_team.title') }}
           </v-card-title>
@@ -16,11 +20,17 @@
               maxlength="30"
               minlength="4"
               :label="$t('model.team.name')"
+              name="team_name"
             ></v-text-field>
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="primary" text type="submit">
+            <v-btn
+              color="primary"
+              text
+              type="submit"
+              class="create-team-submit"
+            >
               {{ $t('button.regist') }}
             </v-btn>
           </v-card-actions>
@@ -67,7 +77,10 @@ export default class CreateTeam extends Vue {
       return
     }
     try {
-      await axios.post('/teams', { team: { name: this.teamName } })
+      const response = await axios.post('/teams', {
+        team: { name: this.teamName }
+      })
+      this.$router.push(`/dashboard/teams/${response.data.id}`)
       this.createdTeam()
     } catch (error) {
       ToastModule.pushNotice({

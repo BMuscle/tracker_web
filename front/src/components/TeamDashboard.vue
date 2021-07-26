@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="team_dashboard">
     <div v-if="!isLoading">
       <div>id: {{ id }}</div>
       <div>name: {{ name }}</div>
