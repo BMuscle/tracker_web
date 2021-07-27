@@ -4,6 +4,7 @@ import router from './router'
 import store from './store'
 import vuetify from './plugins/vuetify'
 import i18n from './locales/i18n'
+import '@/plugins/vue-clipboard'
 
 Vue.config.productionTip = false
 

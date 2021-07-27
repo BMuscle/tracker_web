@@ -8,7 +8,13 @@ Rails.application.routes.draw do
     post 'users/confirmation/authenticate', to: 'users/confirmations#authenticate'
   end
 
-  resources :homes
+  resources :homes, only: :index
+  resources :teams, only: %i[index show create]
+
+  namespace :teams do
+    resources :invites, only: :update
+    post 'invites/confirm', to: 'invites#confirm'
+  end
 
   post '/log_in', to: 'session#log_in'
   post '/log_out', to: 'session#log_out'

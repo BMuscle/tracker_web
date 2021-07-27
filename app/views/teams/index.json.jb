@@ -1,0 +1,10 @@
+# frozen_string_literal: true
+
+{
+  teams: @teams.map do |team|
+    {
+      id: team.id,
+      name: team.name
+    }
+  end
+}

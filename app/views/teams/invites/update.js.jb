@@ -1,0 +1,6 @@
+# frozen_string_literal: true
+
+{
+  id: @team.id,
+  invite_guid: @team.invite_guid
+}

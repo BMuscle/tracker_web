@@ -12,25 +12,31 @@
 class Factory
   include FactoryBot::Syntax::Methods
 
-  def db_create(model_class, params)
+  def db_create(model_class, params, _options)
     p model_class.create!(params)
   end
 
-  def db_update(model_class, params)
+  def db_update(model_class, params, _options)
     p model_class.update!(params)
   end
 
-  def db_user_create(model_class, params)
+  def db_user_create(model_class, params, _options)
     user = model_class.create!(params)
     user.confirm
     p user
+  end
+
+  def db_user_association_create(model_class, params, options)
+    user = User.find_by!(email: options['email'])
+    p model_class.create!(params.merge(user: user))
   end
 end
 
 Seed = Struct.new('Seed', :method_name, :data) do
   def execute
     data.each do |model_data|
-      Factory.new.send("db_#{method_name}", model_data['model'].constantize, model_data['params'])
+      Factory.new.send("db_#{method_name}", model_data['model'].constantize, model_data['params'],
+                       model_data['options'])
     end
   end
 end

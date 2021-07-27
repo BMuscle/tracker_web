@@ -48,8 +48,7 @@ export default class LogIn extends Vue {
           this.$router.push('/dashboard')
         }
       })
-      .catch(err => {
-        console.log(err)
+      .catch(() => {
         ToastModule.pushNotice({
           message: this.$t('toast.log_in_failed'),
           notificationType: 'danger'

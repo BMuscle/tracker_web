@@ -1,0 +1,8 @@
+# frozen_string_literal: true
+
+{
+  id: @team.id,
+  name: @team.name,
+  invite_guid: @team.invite_guid,
+  invite_expired: @team.invite_in_expired?
+}

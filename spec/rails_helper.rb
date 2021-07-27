@@ -35,6 +35,7 @@ end
 RSpec.configure do |config|
   # include FactoryBot
   config.include FactoryBot::Syntax::Methods
+  config.include ActiveSupport::Testing::TimeHelpers
 
   config.include Requests::JsonHelpers, type: :request
   config.include Requests::AuthorizationHelpers, type: :request

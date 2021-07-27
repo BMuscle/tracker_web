@@ -10,6 +10,7 @@ import { AxiosResponse, AxiosError } from 'axios'
 import store from '..'
 
 interface User {
+  id: number
   email: string
 }
 
@@ -21,7 +22,7 @@ class UserModule extends VuexModule {
   async syncCurrentUser (): Promise<AxiosResponse | AxiosError> {
     try {
       const result = await axios.get('/user')
-      this.setCurrentUser(result.data.email)
+      this.setCurrentUser(result.data.id, result.data.email)
       return result
     } catch (error) {
       this.clearCurrentUser()
@@ -30,8 +31,8 @@ class UserModule extends VuexModule {
   }
 
   @Mutation
-  setCurrentUser (email: string) {
-    this.userData = { email: email }
+  setCurrentUser (id: number, email: string) {
+    this.userData = { id: id, email: email }
   }
 
   @Mutation
