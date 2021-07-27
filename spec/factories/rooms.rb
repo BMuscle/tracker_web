@@ -4,7 +4,7 @@ FactoryBot.define do
   factory :room do
     sequence(:name) { |n| "room_#{n}" }
     trait :team do
-      association :team
+      team { association :team, :other_team }
     end
   end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_27_044333) do
+ActiveRecord::Schema.define(version: 2021_07_27_050555) do
 
   create_table "rooms", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "team_id"
@@ -42,6 +42,16 @@ ActiveRecord::Schema.define(version: 2021_07_27_044333) do
     t.index ["user_id"], name: "index_teams_on_user_id"
   end
 
+  create_table "user_in_rooms", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "room_id"
+    t.bigint "user_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["room_id", "user_id"], name: "index_user_in_rooms_on_room_id_and_user_id", unique: true
+    t.index ["room_id"], name: "index_user_in_rooms_on_room_id"
+    t.index ["user_id"], name: "index_user_in_rooms_on_user_id", unique: true
+  end
+
   create_table "users", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -62,4 +72,6 @@ ActiveRecord::Schema.define(version: 2021_07_27_044333) do
   add_foreign_key "team_users", "teams"
   add_foreign_key "team_users", "users"
   add_foreign_key "teams", "users"
+  add_foreign_key "user_in_rooms", "rooms"
+  add_foreign_key "user_in_rooms", "users"
 end
