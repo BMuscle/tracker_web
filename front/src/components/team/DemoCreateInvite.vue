@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-btn @click="updateInvite">
+    <v-btn @click="updateInvite" class="create-invite-url">
       招待URLの作成
     </v-btn>
     <v-row>
@@ -23,6 +23,7 @@
           v-clipboard:copy="inviteUrl"
           v-clipboard:success="successfulCopy"
           v-clipboard:error="unsuccessfulCopy"
+          class="invite-url-copy-button"
         >
           コピー
         </v-btn>

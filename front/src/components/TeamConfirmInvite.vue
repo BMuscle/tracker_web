@@ -6,6 +6,7 @@
 import { Component, Vue } from 'vue-property-decorator'
 import axios from '@/plugins/axios'
 import ToastModule from '@/store/modules/toast'
+import { AxiosResponse } from 'axios'
 
 @Component
 export default class TeamConfirmInvite extends Vue {
@@ -19,10 +20,15 @@ export default class TeamConfirmInvite extends Vue {
     })
   }
 
-  pushNoticeFailed (isExpired: boolean | null): void {
-    const message = isExpired
-      ? 'toast.particpate_expired'
-      : 'toast.particpate_failed'
+  pushNoticeFailed (response: AxiosResponse | undefined): void {
+    let message = ''
+    if (response) {
+      message = response.data.expired
+        ? 'toast.particpate_expired'
+        : 'toast.particpate_failed'
+    } else {
+      message = 'toast.particpate_failed'
+    }
     ToastModule.pushNotice({
       message: this.$t(message),
       notificationType: 'danger'
@@ -38,7 +44,7 @@ export default class TeamConfirmInvite extends Vue {
       this.pushNoticeSuccess(result.data.already)
     } catch (err) {
       this.$router.push('/dashboard')
-      this.pushNoticeFailed(err.response.data.expired)
+      this.pushNoticeFailed(err.response)
     }
   }
 }

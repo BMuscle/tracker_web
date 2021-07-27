@@ -24,6 +24,11 @@ Cypress.Commands.add('logIn', (email, password) => {
   cy.get('#log_in').click()
 })
 
+Cypress.Commands.add('logOut', () => {
+  cy.visit('/')
+  cy.get('#log_out_button').click()
+})
+
 Cypress.Commands.add('dbReset', () => {
   cy.exec('bundle exec rails db:reset RAILS_ENV=test')
 })
@@ -36,6 +41,18 @@ Cypress.Commands.add('createLogInUser', (email, password) => {
         email: email,
         password: password,
         password_confirmation: password
+      }
+    }
+  ])
+})
+
+Cypress.Commands.add('dbUserAssociationCreate', (email, model, params) => {
+  cy.task('dbUserAssociationCreate', [
+    {
+      model: model,
+      params: params,
+      options: {
+        email: email
       }
     }
   ])
