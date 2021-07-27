@@ -3,7 +3,7 @@
 module Teams
   class InvitesController < ApplicationController
     def update
-      @team = Team.can_take_teams(current_user).find(params[:id])
+      @team = current_user.can_take_teams.find(params[:id])
       @team.update_invite!
     end
 

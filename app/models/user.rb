@@ -10,4 +10,8 @@ class User < ApplicationRecord
   has_one :current_room, through: :user_in_room, source: :room
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable, :confirmable
+
+  def can_take_teams
+    Team.can_take_teams(self)
+  end
 end

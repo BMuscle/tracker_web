@@ -2,11 +2,11 @@
 
 class TeamsController < ApplicationController
   def index
-    @teams = Team.can_take_teams(current_user)
+    @teams = current_user.can_take_teams
   end
 
   def show
-    @team = Team.can_take_teams(current_user).find(params[:id])
+    @team = current_user.can_take_teams.find(params[:id])
   end
 
   def create
