@@ -9,6 +9,7 @@
 
     <v-navigation-drawer app width="300" permanent color="gray">
       <teams-navigation-drawer />
+      <rooms-navigation-drawer />
     </v-navigation-drawer>
 
     <v-main>
@@ -25,6 +26,7 @@
 import { Component, Vue } from 'vue-property-decorator'
 import LogOutButton from '@/components/shared/LogOutButton.vue'
 import TeamsNavigationDrawer from '@/components/TeamsNavigationDrawer.vue'
+import RoomsNavigationDrawer from '@/components/RoomsNavigationDrawer.vue'
 import Toast from '@/components/shared/Toast.vue'
 import UserModule from '@/store/modules/user'
 
@@ -32,6 +34,7 @@ import UserModule from '@/store/modules/user'
   components: {
     LogOutButton,
     TeamsNavigationDrawer,
+    RoomsNavigationDrawer,
     Toast
   }
 })

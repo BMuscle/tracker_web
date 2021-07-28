@@ -61,6 +61,10 @@ class TeamModule extends VuexModule {
       isInviteExpired: this.isInviteExpired
     }
   }
+
+  get teamId (): Team['id'] {
+    return this.id
+  }
 }
 
 export default getModule(TeamModule)
