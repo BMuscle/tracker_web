@@ -47,8 +47,8 @@ export default class RoomsNavigationDrawer extends Vue {
 
   @Watch('$route')
   async onChangeRoute (to: Route, from: Route): Promise<void> {
-    const toTeamId = to.params.id
-    const fromTeamId = from.params.id
+    const toTeamId = to.params.teamId
+    const fromTeamId = from.params.teamId
     if (toTeamId && fromTeamId && toTeamId === fromTeamId) {
       return
     }
@@ -60,7 +60,7 @@ export default class RoomsNavigationDrawer extends Vue {
   }
 
   async created (): Promise<void> {
-    const teamId = this.$route.params.id
+    const teamId = this.$route.params.teamId
     if (teamId) {
       await this.syncRooms(teamId)
     }

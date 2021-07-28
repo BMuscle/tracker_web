@@ -36,7 +36,7 @@ export default class TeamsNavigationDrawer extends Vue {
   teams = []
 
   visitTeam (teamId: number): void {
-    if (this.$route.params.id !== teamId.toString()) {
+    if (this.$route.params.teamId !== teamId.toString()) {
       this.$router.push(`/dashboard/teams/${teamId}`)
     }
   }
