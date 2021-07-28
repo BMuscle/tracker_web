@@ -1,0 +1,10 @@
+# frozen_string_literal: true
+
+{
+  rooms: @rooms.map do |room|
+    {
+      id: room.id,
+      name: room.name
+    }
+  end
+}

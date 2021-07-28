@@ -15,6 +15,8 @@ Rails.application.routes.draw do
       # match 'invites/:id', to: 'team_invites#update', via: [:put, :patch], as: :invite
       put 'invites/:id', to: 'team_invites#update', as: :invite
     end
+
+    resources :rooms, only: %i[index show]
   end
 
   post '/log_in', to: 'session#log_in'
