@@ -28,6 +28,12 @@
   "create_team": {
     "title": "チーム登録"
   },
+  "create_room": {
+    "title": "ルーム登録"
+  },
+  "room_groups": {
+    "title": "ルーム"
+  },
   "word": {
     "log_out": "ログアウト"
   },
@@ -43,6 +49,9 @@
     },
     "team": {
       "name": "チーム名"
+    },
+    "room": {
+      "name": "ルーム名"
     }
   },
   "validation": {

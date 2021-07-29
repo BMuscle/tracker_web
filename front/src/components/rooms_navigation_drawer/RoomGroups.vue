@@ -3,19 +3,19 @@
     <v-row class="room-head d-flex align-center" no-gutters>
       <v-col cols="2">
         <v-btn icon @click="toggleGroup">
-          <toggle-angle-right :isOpen="isGroupOpen" />
+          <toggle-angle-right :isOpen="isOpenGroup" />
         </v-btn>
       </v-col>
       <v-col cols="6" class="room-title" @click="toggleGroup">
-        ルーム
+        {{ $t('room_groups.title') }}
       </v-col>
       <v-col cols="2">
-        <v-btn icon @click="createRoomOpen">
+        <v-btn icon @click="openCreateRoom">
           <plus-square :size="14" />
         </v-btn>
       </v-col>
     </v-row>
-    <div class="room-body" v-if="isGroupOpen">
+    <div class="room-body" v-if="isOpenGroup">
       <v-row v-for="room in rooms" :key="room.id" class="room" link>
         <div class="name" v-text="room.name"></div>
       </v-row>
@@ -24,7 +24,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from 'vue-property-decorator'
+import { Component, Vue, Prop, Emit } from 'vue-property-decorator'
 import PlusSquare from '@/components/shared/icons/PlusSquare.vue'
 import ToggleAngleRight from '@/components/shared/icons/ToggleAngleRight.vue'
 import { Room } from '@/components/RoomsNavigationDrawer.vue'
@@ -39,14 +39,15 @@ export default class RoomGroups extends Vue {
   @Prop({ type: Array, required: true, default: [] })
   rooms!: Room[]
 
-  isGroupOpen = true
+  isOpenGroup = true
 
-  createRoomOpen (): void {
-    console.log('createRoomOpen')
+  @Emit('open-create-room')
+  openCreateRoom (): true {
+    return true
   }
 
   toggleGroup (): void {
-    this.isGroupOpen = !this.isGroupOpen
+    this.isOpenGroup = !this.isOpenGroup
   }
 }
 </script>

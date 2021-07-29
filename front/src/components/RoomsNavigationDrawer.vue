@@ -6,17 +6,21 @@
     color="#476072"
   >
     <div v-if="!isLoading">
-      <room-groups :rooms="rooms" />
+      <room-groups
+        :rooms="rooms"
+        @open-create-room="createRoomComponent.openCreateRoom()"
+      />
     </div>
+    <create-room @created-room="createdRoom()" ref="createRoomComponent" />
   </v-sheet>
 </template>
 
 <script lang="ts">
-import { Component, Vue, Watch } from 'vue-property-decorator'
+import { Component, Vue, Watch, Ref } from 'vue-property-decorator'
 import axios from '@/plugins/axios'
 import { Route } from 'vue-router'
 import RoomGroups from './rooms_navigation_drawer/RoomGroups.vue'
-// 明日は、トグルの開閉を作る。別コンポーネントにすること！後は、作成のみ、とぐるはOK
+import CreateRoom from './rooms_navigation_drawer/CreateRoom.vue'
 
 export interface Room {
   id: number
@@ -25,17 +29,26 @@ export interface Room {
 
 @Component({
   components: {
-    RoomGroups
+    RoomGroups,
+    CreateRoom
   }
 })
 export default class RoomsNavigationDrawer extends Vue {
   rooms: Room[] = []
   isLoading = true
   isRoomOpen = true
+  @Ref('createRoomComponent') readonly createRoomComponent!: Vue
 
   async syncRooms (teamId: string): Promise<void> {
     const result = await axios.get(`/teams/${teamId}/rooms`)
     this.rooms = result.data.rooms
+  }
+
+  createdRoom (): void {
+    const teamId = this.$route.params.teamId
+    if (teamId) {
+      this.syncRooms(teamId)
+    }
   }
 
   @Watch('$route')
