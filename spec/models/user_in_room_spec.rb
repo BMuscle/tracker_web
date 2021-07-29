@@ -14,7 +14,7 @@ RSpec.describe UserInRoom, type: :model do
 
     context '関連へのアクセス' do
       let(:user) { create(:user) }
-      let(:room) { create(:room, :team) }
+      let(:room) { create(:room, :other_team_room) }
       let(:user_in_room) { create(:user_in_room, user: user, room: room) }
 
       before do
