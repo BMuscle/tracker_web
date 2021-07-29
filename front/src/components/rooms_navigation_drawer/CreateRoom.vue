@@ -1,26 +1,25 @@
 <template>
-  <div id="create_team">
-    <button id="create_team_button" @click="openCreateTeam" />
-    <v-dialog v-model="createTeamDialog" width="500">
+  <div id="create_room">
+    <v-dialog v-model="createRoomDialog" width="500">
       <v-card>
         <v-form
-          @submit.prevent="createTeam"
-          ref="createTeamForm"
-          id="create_team_form"
+          @submit.prevent="createRoom"
+          ref="createRoomForm"
+          id="create_room_form"
         >
           <v-card-title>
-            {{ $t('create_team.title') }}
+            {{ $t('create_room.title') }}
           </v-card-title>
           <v-card-text>
             <v-text-field
-              v-model="teamName"
+              v-model="roomName"
               :rules="[rules.required, rules.rangeString]"
               clearable
               counter
               maxlength="30"
-              minlength="4"
-              :label="$t('model.team.name')"
-              name="team_name"
+              minlength="1"
+              :label="$t('model.room.name')"
+              name="room_name"
             ></v-text-field>
           </v-card-text>
           <v-card-actions>
@@ -29,7 +28,7 @@
               color="primary"
               text
               type="submit"
-              class="create-team-submit"
+              class="create-room-submit"
             >
               {{ $t('button.regist') }}
             </v-btn>
@@ -46,65 +45,50 @@ import axios from '@/plugins/axios'
 import { required, rangeString } from '@/utils/validations'
 import { LocaleMessage } from 'vue-i18n'
 import ToastModule from '@/store/modules/toast'
+import TeamModule from '@/store/modules/team'
 
 @Component
-export default class CreateTeam extends Vue {
-  createTeamDialog = false
-  teamName = ''
+export default class CreateRoom extends Vue {
+  createRoomDialog = false
+  roomName = ''
   rules = {
     required: required,
     rangeString: (value: string): LocaleMessage | boolean => {
-      return rangeString(value, 4, 30)
+      return rangeString(value, 1, 30)
     }
   }
 
-  @Ref('createTeamForm') readonly createTeamForm!: Vue & {
+  @Ref('createRoomForm') readonly createRoomForm!: Vue & {
     validate: () => boolean
   }
 
-  async openCreateTeam (): Promise<void> {
-    this.teamName = ''
-    this.createTeamDialog = true
+  openCreateRoom (): void {
+    this.roomName = ''
+    this.createRoomDialog = true
   }
 
-  @Emit('created-team')
-  createdTeam (): true {
+  @Emit('created-room')
+  createdRoom (): true {
     return true
   }
 
-  async createTeam (): Promise<void> {
-    if (!this.createTeamForm.validate()) {
+  async createRoom (): Promise<void> {
+    if (!this.createRoomForm.validate()) {
       return
     }
     try {
-      const response = await axios.post('/teams', {
-        team: { name: this.teamName }
+      await axios.post(`/teams/${TeamModule.teamId}/rooms`, {
+        room: { name: this.roomName }
       })
-      this.$router.push(`/dashboard/teams/${response.data.id}`)
-      this.createdTeam()
+      this.createdRoom()
     } catch (error) {
       ToastModule.pushNotice({
         message: this.$t('toast.regist_failed'),
         notificationType: 'danger'
       })
     } finally {
-      this.createTeamDialog = false
+      this.createRoomDialog = false
     }
   }
 }
 </script>
-
-<style scoped lang="scss">
-#create_team {
-  text-align: center;
-}
-
-#create_team_button {
-  background-color: #cae4db;
-  border-radius: 50%;
-  display: inline-block;
-  height: 55px;
-  margin-bottom: 20px;
-  width: 55px;
-}
-</style>

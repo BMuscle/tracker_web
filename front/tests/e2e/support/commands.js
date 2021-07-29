@@ -57,3 +57,15 @@ Cypress.Commands.add('dbUserAssociationCreate', (email, model, params) => {
     }
   ])
 })
+
+Cypress.Commands.add('dbAssociationCreate', (model, params, associations) => {
+  cy.task('dbAssociationCreate', [
+    {
+      model: model,
+      params: params,
+      options: {
+        associations: associations
+      }
+    }
+  ])
+})

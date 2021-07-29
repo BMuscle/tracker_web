@@ -46,6 +46,15 @@ module.exports = (on, config) => {
       console.log('result=', result.toString())
       return null
     },
+    dbAssociationCreate (data) {
+      const args = {
+        method: 'association_create',
+        data: data
+      }
+      const result = execSync(`cd ../ && bundle exec rails runner -e test ./scripts/e2e/factory.rb '${JSON.stringify(args)}'`)
+      console.log('result=', result.toString())
+      return null
+    },
     getClipboard () {
       return clipboardy.readSync()
     }

@@ -9,11 +9,14 @@ Rails.application.routes.draw do
   end
 
   resources :homes, only: :index
-  resources :teams, only: %i[index show create]
+  resources :teams, only: %i[index show create] do
+    collection do
+      post 'invites/confirm', to: 'team_invites#confirm', as: :invite_confirm
+      # match 'invites/:id', to: 'team_invites#update', via: [:put, :patch], as: :invite
+      put 'invites/:id', to: 'team_invites#update', as: :invite
+    end
 
-  namespace :teams do
-    resources :invites, only: :update
-    post 'invites/confirm', to: 'invites#confirm'
+    resources :rooms, only: %i[index show create]
   end
 
   post '/log_in', to: 'session#log_in'

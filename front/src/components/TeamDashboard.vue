@@ -24,7 +24,7 @@ export default class TeamDashboard extends Vue {
   isLoading = true
 
   async syncTeam (): Promise<void> {
-    TeamModule.syncTeam(this.$route.params.id)
+    TeamModule.syncTeam(this.$route.params.teamId)
   }
 
   get team (): Team {

@@ -54,7 +54,7 @@ const routes: Array<RouteConfig> = [
     meta: { requireLogin: true },
     children: [
       {
-        path: 'teams/:id',
+        path: 'teams/:teamId',
         name: 'TeamDashBoard',
         component: TeamDashBoard
       }
