@@ -69,8 +69,8 @@ export default class RoomsNavigationDrawer extends Vue {
     const teamId = this.$route.params.teamId
     if (teamId) {
       await this.syncRooms(teamId)
+      this.isLoading = false
     }
-    this.isLoading = false
   }
 }
 </script>

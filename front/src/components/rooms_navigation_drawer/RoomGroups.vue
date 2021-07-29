@@ -10,7 +10,7 @@
         {{ $t('room_groups.title') }}
       </v-col>
       <v-col cols="2">
-        <v-btn icon @click="openCreateRoom">
+        <v-btn icon @click="openCreateRoom" class="open-create-room-button">
           <plus-square :size="14" />
         </v-btn>
       </v-col>

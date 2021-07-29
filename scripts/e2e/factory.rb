@@ -30,6 +30,14 @@ class Factory
     user = User.find_by!(email: options['email'])
     p model_class.create!(params.merge(user: user))
   end
+
+  def db_association_create(model_class, params, options)
+    options['associations'] = [options['associations']] if options['associations'].instance_of?(Hash)
+    associations = options['associations'].map do |association|
+      { association['key'] => association['model'].constantize.find_by!(association['params']) }
+    end
+    p model_class.create!(params.merge!(*associations))
+  end
 end
 
 Seed = Struct.new('Seed', :method_name, :data) do
