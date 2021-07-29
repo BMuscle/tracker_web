@@ -1,0 +1,77 @@
+<template>
+  <div class="room-groups">
+    <v-row class="room-head d-flex align-center" no-gutters>
+      <v-col cols="2">
+        <v-btn icon @click="toggleGroup">
+          <toggle-angle-right :isOpen="isGroupOpen" />
+        </v-btn>
+      </v-col>
+      <v-col cols="6" class="room-title" @click="toggleGroup">
+        ルーム
+      </v-col>
+      <v-col cols="2">
+        <v-btn icon @click="createRoomOpen">
+          <plus-square :size="14" />
+        </v-btn>
+      </v-col>
+    </v-row>
+    <div class="room-body" v-if="isGroupOpen">
+      <v-row v-for="room in rooms" :key="room.id" class="room" link>
+        <div class="name" v-text="room.name"></div>
+      </v-row>
+    </div>
+  </div>
+</template>
+
+<script lang="ts">
+import { Component, Vue, Prop } from 'vue-property-decorator'
+import PlusSquare from '@/components/shared/icons/PlusSquare.vue'
+import ToggleAngleRight from '@/components/shared/icons/ToggleAngleRight.vue'
+import { Room } from '@/components/RoomsNavigationDrawer.vue'
+
+@Component({
+  components: {
+    PlusSquare,
+    ToggleAngleRight
+  }
+})
+export default class RoomGroups extends Vue {
+  @Prop({ type: Array, required: true, default: [] })
+  rooms!: Room[]
+
+  isGroupOpen = true
+
+  createRoomOpen (): void {
+    console.log('createRoomOpen')
+  }
+
+  toggleGroup (): void {
+    this.isGroupOpen = !this.isGroupOpen
+  }
+}
+</script>
+
+<style scoped lang="scss">
+.room-groups {
+  padding-top: 10px;
+  .room-head {
+    font-size: 15px;
+    .room-title {
+      color: #fff;
+      cursor: pointer;
+      font-weight: 900;
+    }
+  }
+  .room-body {
+    margin-top: 10px;
+    .room {
+      font-size: 15px;
+      padding-left: 60px !important;
+      .name {
+        color: #fff;
+        font-weight: 800;
+      }
+    }
+  }
+}
+</style>
