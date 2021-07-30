@@ -4,7 +4,10 @@
   rooms: @rooms.map do |room|
     {
       id: room.id,
-      name: room.name
+      name: room.name,
+      users: room.users.map do |user|
+               { id: user.id }
+             end
     }
   end
 }

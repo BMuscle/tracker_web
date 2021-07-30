@@ -24,7 +24,7 @@ RSpec.describe 'Rooms', type: :request do
 
         it 'ルーム一覧が取得できること' do
           request
-          expect(parsed_response_body).to eq({ rooms: [{ id: room.id, name: room.name }] })
+          expect(parsed_response_body).to eq({ rooms: [{ id: room.id, name: room.name, users: [] }] })
         end
       end
 
@@ -39,7 +39,7 @@ RSpec.describe 'Rooms', type: :request do
 
         it 'ルーム一覧が取得できること' do
           request
-          expect(parsed_response_body).to eq({ rooms: [{ id: room.id, name: room.name }] })
+          expect(parsed_response_body).to eq({ rooms: [{ id: room.id, name: room.name, users: [] }] })
         end
       end
 

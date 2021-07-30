@@ -22,7 +22,7 @@ class RoomsController < ApplicationController
   end
 
   def rooms
-    @rooms = current_user.can_take_teams.includes(:rooms).find(params[:team_id]).rooms
+    @rooms = current_user.can_take_teams.includes(rooms: [:users]).find(params[:team_id]).rooms
   end
 
   def room
