@@ -21,6 +21,8 @@ import axios from '@/plugins/axios'
 import { Route } from 'vue-router'
 import RoomGroups from './rooms_navigation_drawer/RoomGroups.vue'
 import CreateRoom from './rooms_navigation_drawer/CreateRoom.vue'
+import { cable } from '@/plugins/actioncable'
+import { Subscription } from '@rails/actioncable'
 
 export interface Room {
   id: number
@@ -38,6 +40,7 @@ export default class RoomsNavigationDrawer extends Vue {
   isLoading = true
   isRoomOpen = true
   @Ref('createRoomComponent') readonly createRoomComponent!: Vue
+  subscription: Subscription | null = null
 
   async syncRooms (teamId: string): Promise<void> {
     const result = await axios.get(`/teams/${teamId}/rooms`)
@@ -60,6 +63,7 @@ export default class RoomsNavigationDrawer extends Vue {
     }
     if (toTeamId) {
       this.isLoading = true
+      this.subscribe(toTeamId)
       await this.syncRooms(toTeamId)
       this.isLoading = false
     }
@@ -69,7 +73,41 @@ export default class RoomsNavigationDrawer extends Vue {
     const teamId = this.$route.params.teamId
     if (teamId) {
       await this.syncRooms(teamId)
+      this.subscribe(teamId)
       this.isLoading = false
+    }
+  }
+
+  subscribe (teamId: string | number) {
+    this.unsubscribe()
+    console.log(cable.subscriptions.subscriptions.length)
+    const subscription = cable.subscriptions.create(
+      { channel: 'UserInRoomChannel', team_id: teamId },
+      {
+        initialized () {
+          console.log('init')
+        },
+        connected () {
+          console.log('connected')
+        },
+        disconnected () {
+          console.log('disconnected')
+        },
+        rejected () {
+          console.log('reject')
+        }
+      }
+    )
+    this.subscription = subscription
+  }
+
+  beforeDestroy (): void {
+    this.unsubscribe()
+  }
+
+  unsubscribe (): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe()
     }
   }
 }

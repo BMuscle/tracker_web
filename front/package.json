@@ -13,6 +13,7 @@
     "test:e2e_cli": "vue-cli-service test:e2e --mode test --headless"
   },
   "dependencies": {
+    "@rails/actioncable": "^6.1.4",
     "axios": "^0.21.1",
     "core-js": "^3.6.5",
     "node-sass": "^4",
@@ -28,6 +29,7 @@
   "devDependencies": {
     "@fortawesome/fontawesome-free": "^5.15.3",
     "@intlify/vue-i18n-loader": "^1.0.0",
+    "@types/rails__actioncable": "^6.1.5",
     "@typescript-eslint/eslint-plugin": "^4.18.0",
     "@typescript-eslint/parser": "^4.18.0",
     "@vue/cli": "^4.5.13",

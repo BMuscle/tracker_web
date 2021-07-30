@@ -18,7 +18,8 @@
     "paths": {
       "@/*": [
         "src/*"
-      ]
+      ],
+      "@rails/*": ["rails__*"]
     },
     "lib": [
       "esnext",

@@ -37,6 +37,10 @@ module TrackerWeb
     end
     config.allow_origins = yaml_file['allow_origins']
     config.front_url = yaml_file['front_url']
+
+    # allow action_cable
+    config.action_cable.allowed_request_origins = config.allow_origins
+
     # Configuration for the application, engines, and railties goes here.
     #
     # These settings can be overridden in specific environments using the files
