@@ -30,4 +30,11 @@ class Team < ApplicationRecord
   def already_user(user)
     user_id == user.id || team_users.find_by(user_id: user).present?
   end
+
+  def self.broadcast_rooms(team_id, message)
+    rooms = Team.includes(rooms: [:users]).find(team_id).rooms.include_users_hash
+    ActionCable.server.broadcast(
+      "user_in_room_#{team_id}", { message: message, rooms: rooms }
+    )
+  end
 end

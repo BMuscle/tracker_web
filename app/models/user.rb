@@ -14,4 +14,14 @@ class User < ApplicationRecord
   def can_take_teams
     Team.can_take_teams(self)
   end
+
+  def leave_room
+    team_id = user_in_room&.room&.team_id
+    return unless team_id
+
+    user_in_room.destroy!
+    Team.broadcast_rooms(team_id, 'leaved')
+  end
 end
+
+# 一通りはできたが、連続でやったり高速でやると心配、高速化も検討する

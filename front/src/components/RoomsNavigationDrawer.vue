@@ -11,7 +11,7 @@
         @open-create-room="createRoomComponent.openCreateRoom()"
       />
     </div>
-    <create-room @created-room="createdRoom()" ref="createRoomComponent" />
+    <create-room ref="createRoomComponent" />
   </v-sheet>
 </template>
 
@@ -24,9 +24,14 @@ import CreateRoom from './rooms_navigation_drawer/CreateRoom.vue'
 import { cable } from '@/plugins/actioncable'
 import { Subscription } from '@rails/actioncable'
 
+interface User {
+  id: number
+}
+
 export interface Room {
   id: number
   name: string
+  users: User[]
 }
 
 @Component({
@@ -47,7 +52,7 @@ export default class RoomsNavigationDrawer extends Vue {
     this.rooms = result.data.rooms
   }
 
-  createdRoom (): void {
+  reloadRooms (): void {
     const teamId = this.$route.params.teamId
     if (teamId) {
       this.syncRooms(teamId)
@@ -55,7 +60,7 @@ export default class RoomsNavigationDrawer extends Vue {
   }
 
   @Watch('$route')
-  async onChangeRoute (to: Route, from: Route): Promise<void> {
+  onChangeRoute (to: Route, from: Route): void {
     const toTeamId = to.params.teamId
     const fromTeamId = from.params.teamId
     if (toTeamId && fromTeamId && toTeamId === fromTeamId) {
@@ -64,7 +69,6 @@ export default class RoomsNavigationDrawer extends Vue {
     if (toTeamId) {
       this.isLoading = true
       this.subscribe(toTeamId)
-      await this.syncRooms(toTeamId)
       this.isLoading = false
     }
   }
@@ -72,26 +76,35 @@ export default class RoomsNavigationDrawer extends Vue {
   async created (): Promise<void> {
     const teamId = this.$route.params.teamId
     if (teamId) {
-      await this.syncRooms(teamId)
       this.subscribe(teamId)
       this.isLoading = false
     }
   }
 
-  subscribe (teamId: string | number) {
+  subscribe (teamId: string | number): void {
     this.unsubscribe()
-    console.log(cable.subscriptions.subscriptions.length)
     const subscription = cable.subscriptions.create(
       { channel: 'UserInRoomChannel', team_id: teamId },
       {
-        initialized () {
+        initialized: () => {
           console.log('init')
         },
-        connected () {
+        connected: () => {
           console.log('connected')
+          this.reloadRooms()
         },
         disconnected () {
           console.log('disconnected')
+        },
+        received: data => {
+          console.log('received')
+          if (
+            data.message === 'participated' ||
+            data.message === 'leaved' ||
+            data.message === 'created_room'
+          ) {
+            this.rooms = data.rooms
+          }
         },
         rejected () {
           console.log('reject')

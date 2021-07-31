@@ -9,6 +9,7 @@ class RoomsController < ApplicationController
     @room = Room.new(room_params.merge!(team: team))
 
     if @room.save
+      Team.broadcast_rooms(params[:team_id], 'created_room')
       render :show
     else
       head :unprocessable_entity

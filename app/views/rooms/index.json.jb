@@ -1,13 +1,5 @@
 # frozen_string_literal: true
 
 {
-  rooms: @rooms.map do |room|
-    {
-      id: room.id,
-      name: room.name,
-      users: room.users.map do |user|
-               { id: user.id }
-             end
-    }
-  end
+  rooms: @rooms.include_users_hash
 }

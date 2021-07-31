@@ -18,6 +18,7 @@ Rails.application.routes.draw do
     end
 
     resources :rooms, only: %i[index show create]
+    resources :user_in_rooms, only: %i[create]
   end
 
   post '/log_in', to: 'session#log_in'
