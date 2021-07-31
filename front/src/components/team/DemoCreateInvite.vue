@@ -50,9 +50,13 @@ export default class DemoCreateInvite extends Vue {
   }
 
   updateInvite (): void {
-    axios.put(`/teams/invites/${TeamModule.team.id}`).then(response => {
-      TeamModule.updateInvite(response.data.invite_guid)
-    })
+    if (this.$route.params.teamId) {
+      axios
+        .put(`/teams/invites/${this.$route.params.teamId}`)
+        .then(response => {
+          TeamModule.updateInvite(response.data.invite_guid)
+        })
+    }
   }
 
   successfulCopy (): void {
