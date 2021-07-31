@@ -185,4 +185,49 @@ describe('RoomsNavigationDrawer Page', () => {
       cy.get('#rooms_navigation_drawer').find('.room-groups').find('.room-body').contains('.room-name', 'テストルーム')
     })
   })
+
+  describe('複数ルームが登録されている時', () => {
+    beforeEach(() => {
+      cy.dbUserAssociationCreate(
+        'test@example.com',
+        'Team',
+        {
+          name: 'TestTeam'
+        }
+      )
+      cy.dbAssociationCreate(
+        'Room',
+        {
+          name: 'TestRoom2'
+        },
+        {
+          key: 'team',
+          model: 'Team',
+          params: {
+            name: 'TestTeam'
+          }
+        }
+      )
+      cy.dbAssociationCreate(
+        'Room',
+        {
+          name: 'TestRoom1'
+        },
+        {
+          key: 'team',
+          model: 'Team',
+          params: {
+            name: 'TestTeam'
+          }
+        }
+      )
+      cy.logIn('test@example.com', 'password')
+      cy.get('#teams_navigation_drawer').find('.teams').find('.name').click()
+    })
+
+    it('ルームが表示されていること', () => {
+      cy.get('#rooms_navigation_drawer').find('.room-groups').find('.room-body').find('.room-name').eq(0).contains('TestRoom1')
+      cy.get('#rooms_navigation_drawer').find('.room-groups').find('.room-body').find('.room-name').eq(1).contains('TestRoom2')
+    })
+  })
 })

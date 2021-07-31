@@ -62,6 +62,12 @@ export default class RoomGroups extends Vue {
     return true
   }
 
+  sortUsers (users: Room['users']): Room['users'] {
+    return users.sort((a, b) => {
+      return a.id > b.id ? 1 : -1
+    })
+  }
+
   participateRoom (roomId: number): void {
     if (TeamModule.teamId) {
       axios.post(`/teams/${TeamModule.teamId}/user_in_rooms`, {

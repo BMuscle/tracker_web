@@ -7,7 +7,7 @@
   >
     <div v-if="!isLoading">
       <room-groups
-        :rooms="rooms"
+        :rooms="orderedRooms"
         @open-create-room="createRoomComponent.openCreateRoom()"
       />
     </div>
@@ -46,6 +46,12 @@ export default class RoomsNavigationDrawer extends Vue {
   isRoomOpen = true
   @Ref('createRoomComponent') readonly createRoomComponent!: Vue
   subscription: Subscription | null = null
+
+  get orderedRooms (): Room[] {
+    return this.rooms.sort((a, b) => {
+      return a.name > b.name ? 1 : -1
+    })
+  }
 
   async syncRooms (teamId: string): Promise<void> {
     const result = await axios.get(`/teams/${teamId}/rooms`)
