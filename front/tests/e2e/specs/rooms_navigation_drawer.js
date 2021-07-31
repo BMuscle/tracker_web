@@ -32,7 +32,7 @@ describe('RoomsNavigationDrawer Page', () => {
       cy.get('#teams_navigation_drawer').find('.teams').find('.name').click()
     })
     it('ルームが表示されていること', () => {
-      cy.get('#rooms_navigation_drawer').find('.room-groups').find('.room-body').contains('.name', 'TestRoom')
+      cy.get('#rooms_navigation_drawer').find('.room-groups').find('.room-body').contains('.room-name', 'TestRoom')
     })
   })
 
@@ -83,7 +83,7 @@ describe('RoomsNavigationDrawer Page', () => {
       cy.get('#teams_navigation_drawer').find('.teams').find('.name').click()
     })
     it('ルームが表示されていること', () => {
-      cy.get('#rooms_navigation_drawer').find('.room-groups').find('.room-body').contains('.name', 'TestRoom')
+      cy.get('#rooms_navigation_drawer').find('.room-groups').find('.room-body').contains('.room-name', 'TestRoom')
     })
   })
 
@@ -134,7 +134,7 @@ describe('RoomsNavigationDrawer Page', () => {
       cy.get('#teams_navigation_drawer').find('.teams').find('.name').eq(0).click()
     })
     it('別のチームのルームが表示されていること', () => {
-      cy.get('#rooms_navigation_drawer').find('.room-groups').find('.room-body').contains('.name', 'TestRoom1')
+      cy.get('#rooms_navigation_drawer').find('.room-groups').find('.room-body').contains('.room-name', 'TestRoom1')
       cy.get('#teams_navigation_drawer').find('.teams').find('.name').eq(1).click()
     })
   })
@@ -153,7 +153,7 @@ describe('RoomsNavigationDrawer Page', () => {
     })
     it('ルームが空で表示されていること', () => {
       cy.get('#rooms_navigation_drawer').find('.room-groups').contains('.room-title', 'ルーム')
-      cy.get('#rooms_navigation_drawer').find('.room-groups').find('.room-body').find('.name').should('not.exist')
+      cy.get('#rooms_navigation_drawer').find('.room-groups').find('.room-body').find('.room-name').should('not.exist')
     })
   })
   describe('チームが登録されていない時', () => {
@@ -182,7 +182,7 @@ describe('RoomsNavigationDrawer Page', () => {
       createRoomForm.get('.create-room-submit').click()
     })
     it('ルームが登録され表示されていること', () => {
-      cy.get('#rooms_navigation_drawer').find('.room-groups').find('.room-body').contains('.name', 'テストルーム')
+      cy.get('#rooms_navigation_drawer').find('.room-groups').find('.room-body').contains('.room-name', 'テストルーム')
     })
   })
 })
