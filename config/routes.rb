@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  mount ActionCable.server => '/cable'
+
   devise_for :users, skip: %i[sessions passwords registrations confirmations]
   devise_scope :user do
     get 'users/confirmation/new', to: 'users/confirmations#new', as: :new_user_confirmation
@@ -12,11 +14,11 @@ Rails.application.routes.draw do
   resources :teams, only: %i[index show create] do
     collection do
       post 'invites/confirm', to: 'team_invites#confirm', as: :invite_confirm
-      # match 'invites/:id', to: 'team_invites#update', via: [:put, :patch], as: :invite
       put 'invites/:id', to: 'team_invites#update', as: :invite
     end
 
     resources :rooms, only: %i[index show create]
+    resources :user_in_rooms, only: %i[create]
   end
 
   post '/log_in', to: 'session#log_in'

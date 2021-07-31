@@ -12,8 +12,8 @@ import { AxiosResponse } from 'axios'
 export default class TeamConfirmInvite extends Vue {
   pushNoticeSuccess (already: boolean): void {
     const message = already
-      ? 'toast.particpate_already'
-      : 'toast.particpate_success'
+      ? 'toast.participate_already'
+      : 'toast.participate_success'
     ToastModule.pushNotice({
       message: this.$t(message),
       notificationType: 'success'
@@ -24,10 +24,10 @@ export default class TeamConfirmInvite extends Vue {
     let message = ''
     if (response) {
       message = response.data.expired
-        ? 'toast.particpate_expired'
-        : 'toast.particpate_failed'
+        ? 'toast.participate_expired'
+        : 'toast.participate_failed'
     } else {
-      message = 'toast.particpate_failed'
+      message = 'toast.participate_failed'
     }
     ToastModule.pushNotice({
       message: this.$t(message),

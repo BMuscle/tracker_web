@@ -16,9 +16,23 @@
       </v-col>
     </v-row>
     <div class="room-body" v-if="isOpenGroup">
-      <v-row v-for="room in rooms" :key="room.id" class="room" link>
-        <div class="name" v-text="room.name"></div>
-      </v-row>
+      <div v-for="room in rooms" :key="room.id" class="room" link>
+        <v-row class="room-name" @click="participateRoom(room.id)" no-gutters>
+          <v-col>
+            {{ room.name }}
+          </v-col>
+        </v-row>
+        <v-row
+          v-for="user in room.users"
+          :key="user.id"
+          no-gutters
+          class="users"
+        >
+          <v-col class="user-name">
+            {{ user.id }}
+          </v-col>
+        </v-row>
+      </div>
     </div>
   </div>
 </template>
@@ -27,7 +41,9 @@
 import { Component, Vue, Prop, Emit } from 'vue-property-decorator'
 import PlusSquare from '@/components/shared/icons/PlusSquare.vue'
 import ToggleAngleRight from '@/components/shared/icons/ToggleAngleRight.vue'
+import axios from '@/plugins/axios'
 import { Room } from '@/components/RoomsNavigationDrawer.vue'
+import TeamModule from '@/store/modules/team'
 
 @Component({
   components: {
@@ -44,6 +60,20 @@ export default class RoomGroups extends Vue {
   @Emit('open-create-room')
   openCreateRoom (): true {
     return true
+  }
+
+  sortUsers (users: Room['users']): Room['users'] {
+    return users.sort((a, b) => {
+      return a.id > b.id ? 1 : -1
+    })
+  }
+
+  participateRoom (roomId: number): void {
+    if (TeamModule.teamId) {
+      axios.post(`/teams/${TeamModule.teamId}/user_in_rooms`, {
+        room: { id: roomId }
+      })
+    }
   }
 
   toggleGroup (): void {
@@ -64,13 +94,19 @@ export default class RoomGroups extends Vue {
     }
   }
   .room-body {
-    margin-top: 10px;
     .room {
       font-size: 15px;
-      padding-left: 60px !important;
-      .name {
+      padding-left: 50px !important;
+      .room-name {
         color: #fff;
         font-weight: 800;
+      }
+      .users {
+        .user-name {
+          color: #fff;
+          font-weight: 600;
+          padding-left: 10px;
+        }
       }
     }
   }

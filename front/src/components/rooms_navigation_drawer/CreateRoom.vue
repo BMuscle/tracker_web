@@ -40,7 +40,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Ref, Emit } from 'vue-property-decorator'
+import { Component, Vue, Ref } from 'vue-property-decorator'
 import axios from '@/plugins/axios'
 import { required, rangeString } from '@/utils/validations'
 import { LocaleMessage } from 'vue-i18n'
@@ -67,11 +67,6 @@ export default class CreateRoom extends Vue {
     this.createRoomDialog = true
   }
 
-  @Emit('created-room')
-  createdRoom (): true {
-    return true
-  }
-
   async createRoom (): Promise<void> {
     if (!this.createRoomForm.validate()) {
       return
@@ -80,7 +75,6 @@ export default class CreateRoom extends Vue {
       await axios.post(`/teams/${TeamModule.teamId}/rooms`, {
         room: { name: this.roomName }
       })
-      this.createdRoom()
     } catch (error) {
       ToastModule.pushNotice({
         message: this.$t('toast.regist_failed'),

@@ -7,11 +7,11 @@
   >
     <div v-if="!isLoading">
       <room-groups
-        :rooms="rooms"
+        :rooms="orderedRooms"
         @open-create-room="createRoomComponent.openCreateRoom()"
       />
     </div>
-    <create-room @created-room="createdRoom()" ref="createRoomComponent" />
+    <create-room ref="createRoomComponent" />
   </v-sheet>
 </template>
 
@@ -21,10 +21,17 @@ import axios from '@/plugins/axios'
 import { Route } from 'vue-router'
 import RoomGroups from './rooms_navigation_drawer/RoomGroups.vue'
 import CreateRoom from './rooms_navigation_drawer/CreateRoom.vue'
+import { cable } from '@/plugins/actioncable'
+import { Subscription } from '@rails/actioncable'
+
+interface User {
+  id: number
+}
 
 export interface Room {
   id: number
   name: string
+  users: User[]
 }
 
 @Component({
@@ -38,13 +45,20 @@ export default class RoomsNavigationDrawer extends Vue {
   isLoading = true
   isRoomOpen = true
   @Ref('createRoomComponent') readonly createRoomComponent!: Vue
+  subscription: Subscription | null = null
+
+  get orderedRooms (): Room[] {
+    return this.rooms.sort((a, b) => {
+      return a.name > b.name ? 1 : -1
+    })
+  }
 
   async syncRooms (teamId: string): Promise<void> {
     const result = await axios.get(`/teams/${teamId}/rooms`)
     this.rooms = result.data.rooms
   }
 
-  createdRoom (): void {
+  reloadRooms (): void {
     const teamId = this.$route.params.teamId
     if (teamId) {
       this.syncRooms(teamId)
@@ -52,7 +66,7 @@ export default class RoomsNavigationDrawer extends Vue {
   }
 
   @Watch('$route')
-  async onChangeRoute (to: Route, from: Route): Promise<void> {
+  onChangeRoute (to: Route, from: Route): void {
     const toTeamId = to.params.teamId
     const fromTeamId = from.params.teamId
     if (toTeamId && fromTeamId && toTeamId === fromTeamId) {
@@ -60,7 +74,7 @@ export default class RoomsNavigationDrawer extends Vue {
     }
     if (toTeamId) {
       this.isLoading = true
-      await this.syncRooms(toTeamId)
+      this.subscribe(toTeamId)
       this.isLoading = false
     }
   }
@@ -68,8 +82,51 @@ export default class RoomsNavigationDrawer extends Vue {
   async created (): Promise<void> {
     const teamId = this.$route.params.teamId
     if (teamId) {
-      await this.syncRooms(teamId)
+      this.subscribe(teamId)
       this.isLoading = false
+    }
+  }
+
+  subscribe (teamId: string | number): void {
+    this.unsubscribe()
+    const subscription = cable.subscriptions.create(
+      { channel: 'UserInRoomChannel', team_id: teamId },
+      {
+        initialized: () => {
+          console.log('init')
+        },
+        connected: () => {
+          console.log('connected')
+          this.reloadRooms()
+        },
+        disconnected () {
+          console.log('disconnected')
+        },
+        received: data => {
+          console.log('received')
+          if (
+            data.message === 'participated' ||
+            data.message === 'leaved' ||
+            data.message === 'created_room'
+          ) {
+            this.rooms = data.rooms
+          }
+        },
+        rejected () {
+          console.log('reject')
+        }
+      }
+    )
+    this.subscription = subscription
+  }
+
+  beforeDestroy (): void {
+    this.unsubscribe()
+  }
+
+  unsubscribe (): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe()
     }
   }
 }

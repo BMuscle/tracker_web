@@ -7,4 +7,16 @@ class Room < ApplicationRecord
 
   validates :team_id, uniqueness: { scope: :name }
   validates :name, presence: true, length: { maximum: 30 }
+
+  scope :include_users_hash, lambda {
+                               map do |room|
+                                 {
+                                   id: room.id,
+                                   name: room.name,
+                                   users: room.users.map do |user|
+                                            { id: user.id }
+                                          end
+                                 }
+                               end
+                             }
 end
