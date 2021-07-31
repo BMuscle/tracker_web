@@ -58,7 +58,7 @@ pipeline {
               sh 'while ! mysqladmin ping -hdb --silent; do sleep 1; done'
             }
             def testImage = docker.build("test-image", "./.jenkins/e2e")
-            testImage.inside("--link ${c.id}:db -e TRACKER_DATABASE_PORT=3306 -e TRACKER_DATABASE_HOST=db -e TRACKER_FRONT_URL=localhost:8080 -e TRACKER_ALLOW_ORIGINS=localhost:8080 -e VUE_APP_BACK_END_API_URL=http://localhost:3000 -e VUE_APP_FRONT_END_URL=http://localhost:8080 -e HOME=\"/tmp/bundler/${JOB_NAME}/${BUILD_NUMBER}\"") {
+            testImage.inside("--link ${c.id}:db -e TRACKER_DATABASE_PORT=3306 -e TRACKER_DATABASE_HOST=db -e TRACKER_FRONT_URL=localhost:8080 -e TRACKER_ALLOW_ORIGINS=localhost:8080 -e VUE_APP_BACK_END_API_URL=http://localhost:3000 -e VUE_APP_FRONT_END_URL=http://localhost:8080 -e VUE_APP_BACK_END_ACTIONCABLE_API_URL=ws://localhost:3000 -e HOME=\"/tmp/bundler/${JOB_NAME}/${BUILD_NUMBER}\"") {
                 sh 'bundle config set path "./vendor/bundle" && bundle install --without development && bundle exec rails db:create db:migrate RAILS_ENV=test'
                 sh 'bundle exec rails s -b localhost -e test -d'
                 sh 'cd ./front && yarn install'
