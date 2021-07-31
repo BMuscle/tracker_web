@@ -103,9 +103,9 @@ export default class RoomGroups extends Vue {
       }
       .users {
         .user-name {
-          padding-left: 10px;
           color: #fff;
           font-weight: 600;
+          padding-left: 10px;
         }
       }
     }
