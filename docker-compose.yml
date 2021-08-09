@@ -10,15 +10,18 @@ services:
       - ./mysql-data:/var/lib/mysql
     ports:
       - 3306:3306
-  influxdb:
+  influx_db:
     image: influxdb:2.0
     environment:
-      DOCKER_INFLUXDB_INIT_USERNAME: tracker_influxdb
+      DOCKER_INFLUXDB_INIT_MODE: setup
+      DOCKER_INFLUXDB_INIT_USERNAME: tracker
       DOCKER_INFLUXDB_INIT_PASSWORD: password
       DOCKER_INFLUXDB_INIT_ORG: tracker
-      DOCKER_INFLUXDB_INIT_BUCKET: tracker_influxdb
+      DOCKER_INFLUXDB_INIT_BUCKET: tracker_db
+      DOCKER_INFLUXDB_INIT_ADMIN_TOKEN: token
     volumes:
-      - ./influxdb-data:/var/lib/influxdb2
+      - ./influx_db/data:/var/lib/influxdb2
+      - ./influx_db/scripts:/docker-entrypoint-initdb.d
     ports:
       - "8086:8086"
   selenium_chrome:

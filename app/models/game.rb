@@ -7,8 +7,6 @@ class Game < ApplicationRecord
   validate :room_and_team_match # 保存時にルームを指定している場合、チームに含まれている必要がある
 
   def room_and_team_match
-    if room&.team_id && room&.team_id != team_id
-      errors.add(:room, " is not included in the team")
-    end
+    errors.add(:room, ' is not included in the team') if room&.team_id && room&.team_id != team_id
   end
 end

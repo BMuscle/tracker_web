@@ -27,7 +27,7 @@
 /config/master.key
 
 /mysql-data/*
-/influxdb-data/*
+/influx_db/data/*
 
 # Ignore config file
 /config/database.yml

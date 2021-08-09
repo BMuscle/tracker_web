@@ -30,13 +30,16 @@ module TrackerWeb
     # using Cookie
     config.middleware.use ActionDispatch::Cookies
     config.middleware.use ActionDispatch::Session::CookieStore
+    # load lib
+    config.autoload_paths << Rails.root.join('lib')
 
     yaml_file = YAML.safe_load(ERB.new(Rails.root.join('config/config.yml').read).result)['tracker']
     if File.exist?(Rails.root.join('config/local_config.yml'))
-      yaml_file.merge!(YAML.load_file(Rails.root.join('config/local_config.yml'))['tracker'])
+      yaml_file.deep_merge!(YAML.load_file(Rails.root.join('config/local_config.yml'))['tracker'])
     end
     config.allow_origins = yaml_file['allow_origins']
     config.front_url = yaml_file['front_url']
+    config.influx_db = yaml_file['influx_db']
 
     # allow action_cable
     config.action_cable.allowed_request_origins = config.allow_origins
