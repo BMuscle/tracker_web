@@ -10,7 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_27_050555) do
+ActiveRecord::Schema.define(version: 2021_08_09_023737) do
+
+  create_table "games", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "team_id"
+    t.bigint "room_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["room_id"], name: "index_games_on_room_id"
+    t.index ["team_id"], name: "index_games_on_team_id"
+  end
 
   create_table "rooms", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "team_id"
@@ -68,6 +77,8 @@ ActiveRecord::Schema.define(version: 2021_07_27_050555) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "games", "rooms"
+  add_foreign_key "games", "teams"
   add_foreign_key "rooms", "teams"
   add_foreign_key "team_users", "teams"
   add_foreign_key "team_users", "users"

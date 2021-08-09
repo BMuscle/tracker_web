@@ -7,6 +7,7 @@ class Team < ApplicationRecord
   has_many :team_users, dependent: :destroy
   has_many :participating_users, through: :team_users, source: :user
   has_many :rooms, dependent: :destroy
+  has_many :games, dependent: :destroy
 
   validates :name, presence: true, length: { in: 4..30 }
 
