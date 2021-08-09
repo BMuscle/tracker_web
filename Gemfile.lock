@@ -86,6 +86,7 @@ GEM
       activesupport (>= 4.2.0)
     i18n (1.8.10)
       concurrent-ruby (~> 1.0)
+    influxdb-client (1.16.0)
     jb (0.8.0)
     listen (3.5.1)
       rb-fsevent (~> 0.10, >= 0.10.3)
@@ -217,6 +218,7 @@ DEPENDENCIES
   byebug
   devise
   factory_bot_rails
+  influxdb-client
   jb
   listen (~> 3.3)
   mysql2 (~> 0.5)
