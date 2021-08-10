@@ -2,7 +2,7 @@
 
 RSpec.shared_context 'use influx', use_influx: true do
   before do
-    Rails.configuration.influx_db['bucket'] = 'tracker_test_db'
+    Rails.configuration.influx_db['bucket'] = Rails.configuration.influx_db['test_bucket']
   end
 
   after do
