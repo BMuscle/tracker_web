@@ -5,7 +5,7 @@ pipeline {
     stage('build') {
       steps {
         script {
-          def testImage = docker.build("test-image", "./.jenkins/rspec")
+          def testImage = docker.build("test-image", "./.jenkins/rails")
           testImage.inside('-e HOME="/tmp/bundler/${JOB_NAME}/${BUILD_NUMBER}"') {
             sh 'mkdir -p "/tmp/bundler/${JOB_NAME}/${BUILD_NUMBER}"'
             sh 'cp config/database.yml.sample config/database.yml'
@@ -21,7 +21,7 @@ pipeline {
 
       steps {
         script {
-          def testImage = docker.build("test-image", "./.jenkins/reviewdog")
+          def testImage = docker.build("test-image", "./.jenkins/rails")
           testImage.inside('-e REVIEWDOG_INSECURE_SKIP_VERIFY=true -e REVIEWDOG_GITHUB_API_TOKEN=${REVIEWDOG_GITHUB_API_TOKEN} -e CI_COMMIT=${GIT_COMMIT} -e CI_PULL_REQUEST=${CHANGE_ID} -e CI_REPO_NAME=tracker_web -e CI_REPO_OWNER=BMuscle -e HOME="/tmp/bundler/${JOB_NAME}/${BUILD_NUMBER}"') {
               sh 'bundle config set path "./vendor/bundle" && bundle install --without development'
               sh 'cd ./front && yarn install'
@@ -40,8 +40,8 @@ pipeline {
             docker.image('mysql:8.0').inside("--link ${c.id}:db") {
               sh 'while ! mysqladmin ping -hdb --silent; do sleep 1; done'
             }
-            def testImage = docker.build("test-image", "./.jenkins/rspec")
-            testImage.inside("--link ${c.id}:db -e TRACKER_DATABASE_PORT=3306 -e TRACKER_DATABASE_HOST=db -e TRACKER_FRONT_URL=localhost:8080 -e HOME=\"/tmp/bundler/${JOB_NAME}/${BUILD_NUMBER}\"") {
+            def testImage = docker.build("test-image", "./.jenkins/rails")
+            testImage.inside("--link ${c.id}:db -e HOME=\"/tmp/bundler/${JOB_NAME}/${BUILD_NUMBER}\"") {
               sh 'bundle config set path "./vendor/bundle" && bundle install --without development && bundle exec rails db:create db:migrate RAILS_ENV=test'
               sh 'bundle exec rspec --format p'
             }
@@ -57,8 +57,8 @@ pipeline {
             docker.image('mysql:8.0').inside("--link ${c.id}:db") {
               sh 'while ! mysqladmin ping -hdb --silent; do sleep 1; done'
             }
-            def testImage = docker.build("test-image", "./.jenkins/e2e")
-            testImage.inside("--link ${c.id}:db -e TRACKER_DATABASE_PORT=3306 -e TRACKER_DATABASE_HOST=db -e TRACKER_FRONT_URL=localhost:8080 -e TRACKER_ALLOW_ORIGINS=http://localhost:8080 -e VUE_APP_BACK_END_API_URL=http://localhost:3000 -e VUE_APP_FRONT_END_URL=http://localhost:8080 -e VUE_APP_BACK_END_ACTIONCABLE_API_URL=ws://localhost:3000 -e HOME=\"/tmp/bundler/${JOB_NAME}/${BUILD_NUMBER}\"") {
+            def testImage = docker.build("test-image", "./.jenkins/rails")
+            testImage.inside("--link ${c.id}:db -e HOME=\"/tmp/bundler/${JOB_NAME}/${BUILD_NUMBER}\"") {
                 sh 'bundle config set path "./vendor/bundle" && bundle install --without development && bundle exec rails db:create db:migrate RAILS_ENV=test'
                 sh 'bundle exec rails s -b localhost -e test -d'
                 sh 'cd ./front && yarn install'
