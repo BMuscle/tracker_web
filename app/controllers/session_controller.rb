@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class SessionController < ApplicationController
-  skip_before_action :authenticate_user
+  skip_before_action :authenticate_user, only: :log_in
 
   def log_in
     user = User.find_for_database_authentication(email: user_params[:email])

@@ -9,7 +9,7 @@ FactoryBot.define do
     end
 
     trait :other_team do
-      association :user
+      association :user, :confirmed
     end
   end
 end

@@ -1,24 +1,15 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
 
-Things you may want to cover:
+## 環境構築
 
-* Ruby version
+### InfluxDBのセットアップ
 
-* System dependencies
+Influx DBへアクセスするにはトークンが必要。
+開発環境や、テスト環境ではADMINのトークンでも良い。
 
-* Configuration
+read, writeが可能なトークンを作るには以下のコマンドを実行する。
 
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+```bash
+docker-compose exec influx_db bash -c 'influx auth create --org $DOCKER_INFLUXDB_INIT_ORG  --write-buckets $DOCKER_INFLUXDB_INIT_BUCKET --read-buckets $DOCKER_INFLUXDB_INIT_BUCKET' | tail -n 1 | awk '{print $2}'
+```

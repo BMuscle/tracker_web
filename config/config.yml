@@ -1,5 +1,11 @@
 tracker:
   allow_origins:
-    - '<%= ENV['TRACKER_ALLOW_ORIGINS'] %>'
-  front_url: '<%= ENV['TRACKER_FRONT_URL'] %>'
+    - <%= ENV['TRACKER_ALLOW_ORIGINS'] %>
+  front_url: <%= ENV['TRACKER_FRONT_URL'] %>
+  influx_db:
+    host: <%= ENV['INFLUX_DB_HOST'] ||= 'http://localhost:8086' %>
+    token: <%= ENV['INFLUX_DB_TOKEN'] %>
+    org: <%= ENV['INFLUX_DB_ORG'] %>
+    bucket: <%= ENV['INFLUX_DB_BUCKET'] %>
+    test_bucket: <%= ENV['INFLUX_DB_TEST_BUCKET'] ||= 'tracker_test_db' %>
 
