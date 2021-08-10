@@ -16,4 +16,11 @@ Rails.application.config.middleware.insert_before 0, Rack::Cors, debug: true, lo
              methods: %i[get post put patch delete options head],
              credentials: true
   end
+
+  allow do
+    origins '*'
+    resource '/agent_api/*',
+             headers: :any,
+             methods: %i[get post put patch delete options head]
+  end
 end

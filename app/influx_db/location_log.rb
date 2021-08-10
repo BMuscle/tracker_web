@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class LocationLog < InfluxDb::Base
-  def write_log(game, logs = [])
+  def write_logs(game, logs = [])
     return false if logs.empty?
     return false unless call_write(game, logs)
 
@@ -10,7 +10,7 @@ class LocationLog < InfluxDb::Base
     false
   end
 
-  def user_location_log(game)
+  def user_location_logs(game)
     query = "from(bucket: \"#{@client.bucket}\")
       |> range(start: 0, stop: now())
       |> filter(fn: (r) =>
@@ -32,7 +32,7 @@ class LocationLog < InfluxDb::Base
                                  .add_tag('user_id', @client.user_id)
                                  .add_field('location', { latitude: log[:latitude],
                                                           longitude: log[:longitude] }.to_json)
-                                 .time(log[:time], InfluxDB2::WritePrecision::NANOSECOND)
+                                 .time(convert_time(log[:time]), InfluxDB2::WritePrecision::NANOSECOND)
       end
     end
   end
