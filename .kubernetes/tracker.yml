@@ -1,0 +1,206 @@
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: tracker
+  labels:
+    name: tracker
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tracker-mysql
+  namespace: tracker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tracker-mysql
+  template:
+    metadata:
+      labels:
+        app: tracker-mysql
+    spec:
+      containers:
+        - name: tracker-mysql-container
+          image: mysql/mysql-server:8.0
+          args:
+            - --default-authentication-plugin=mysql_native_password
+          ports:
+            - containerPort: 3306
+          env:
+            - name: MYSQL_ROOT_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: tracker-secret
+                  key: MYSQL_ROOT_HOST
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: tracker-secret
+                  key: MYSQL_ROOT_PASSWORD
+            - name: MYSQL_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  name: tracker-secret
+                  key: TRACKER_DATABASE_DATABASE
+            - name: MYSQL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: tracker-secret
+                  key: TRACKER_DATABASE_USERNAME
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: tracker-secret
+                  key: TRACKER_DATABASE_PASSWORD
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tracker-influxdb
+  namespace: tracker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tracker-influxdb
+  template:
+    metadata:
+      labels:
+        app: tracker-influxdb
+    spec:
+      containers:
+        - name: tracker-influxdb-container
+          image: influxdb:2.0
+          ports:
+            - containerPort: 8086
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tracker-rails
+  namespace: tracker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tracker-rails
+  template:
+    metadata:
+      labels:
+        app: tracker-rails
+    spec:
+      containers:
+        - name: tracker-rails-container
+          image: rk221/tracker_rails
+          ports:
+            - containerPort: 3000
+          command:
+            - /bin/bash
+          args:
+            - -c
+            - bundle exec rails s -b 0.0.0.0
+          env:
+            - name: TRACKER_DATABASE_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  name: tracker-secret
+                  key: TRACKER_DATABASE_DATABASE
+            - name: TRACKER_DATABASE_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: tracker-secret
+                  key: TRACKER_DATABASE_USERNAME
+            - name: TRACKER_DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: tracker-secret
+                  key: TRACKER_DATABASE_PASSWORD
+            - name: TRACKER_DATABASE_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: tracker-secret
+                  key: TRACKER_DATABASE_HOST
+            - name: TRACKER_DATABASE_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: tracker-secret
+                  key: TRACKER_DATABASE_PORT
+            - name: TRACKER_ALLOW_ORIGINS
+              valueFrom:
+                secretKeyRef:
+                  name: tracker-secret
+                  key: TRACKER_ALLOW_ORIGINS
+            - name: TRACKER_FRONT_URL
+              valueFrom:
+                secretKeyRef:
+                  name: tracker-secret
+                  key: TRACKER_FRONT_URL
+            - name: INFLUX_DB_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: tracker-secret
+                  key: INFLUX_DB_HOST
+            - name: INFLUX_DB_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: tracker-secret
+                  key: INFLUX_DB_TOKEN
+            - name: INFLUX_DB_ORG
+              valueFrom:
+                secretKeyRef:
+                  name: tracker-secret
+                  key: INFLUX_DB_ORG
+            - name: INFLUX_DB_BUCKET
+              valueFrom:
+                secretKeyRef:
+                  name: tracker-secret
+                  key: INFLUX_DB_BUCKET
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tracker-front
+  namespace: tracker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tracker-front
+  template:
+    metadata:
+      labels:
+        app: tracker-front
+    spec:
+      containers:
+        - name: tracker-front-container
+          image: rk221/tracker_front
+          ports:
+            - containerPort: 80
+          env:
+            - name: VUE_APP_FRONT_END_URL
+              valueFrom:
+                secretKeyRef:
+                  name: tracker-secret
+                  key: VUE_APP_FRONT_END_URL
+            - name: VUE_APP_BACK_END_API_URL
+              valueFrom:
+                secretKeyRef:
+                  name: tracker-secret
+                  key: VUE_APP_BACK_END_API_URL
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tracker-node-port
+  namespace: tracker
+spec:
+  type: NodePort
+  ports:
+  - name: "http-port"
+    protocol: "TCP"
+    port: 8080
+    targetPort: 80
+    nodePort: 30080
+  selector:
+    app: tracker-front
