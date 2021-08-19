@@ -101,6 +101,13 @@ spec:
             - -c
             - bundle exec rails s -b 0.0.0.0
           env:
+            - name: RAILS_ENV
+              value: production
+            - name: RAILS_MASTER_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: tracker-secret
+                  key: RAILS_MASTER_KEY
             - name: TRACKER_DATABASE_DATABASE
               valueFrom:
                 secretKeyRef:
@@ -192,15 +199,60 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: tracker-node-port
+  name: tracker-front
   namespace: tracker
 spec:
   type: NodePort
   ports:
-  - name: "http-port"
+  - name: "front-port"
     protocol: "TCP"
-    port: 8080
+    port: 80
     targetPort: 80
     nodePort: 30080
   selector:
     app: tracker-front
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tracker-mysql
+  namespace: tracker
+spec:
+  type: ClusterIP
+  ports:
+  - name: "mysql-port"
+    protocol: "TCP"
+    port: 3306
+    targetPort: 3306
+  selector:
+    app: tracker-mysql
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tracker-influxdb
+  namespace: tracker
+spec:
+  type: ClusterIP
+  ports:
+  - name: "influxdb-port"
+    protocol: "TCP"
+    port: 8086
+    targetPort: 8086
+  selector:
+    app: tracker-influxdb
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tracker-rails
+  namespace: tracker
+spec:
+  type: ClusterIP
+  ports:
+  - name: "rails-port"
+    protocol: "TCP"
+    port: 3000
+    targetPort: 3000
+  selector:
+    app: tracker-rails
