@@ -3,6 +3,8 @@ RUN apk update && \
     apk add --no-cache --virtual build-dependencies git curl python make g++ && \
     curl -o- -L https://yarnpkg.com/install.sh | sh
 ENV PATH $HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH
+ENV VUE_APP_BACK_END_API_URL=http://tracker-rails:3000
+ENV VUE_APP_FRONT_END_URL=http://192.168.11.100
 WORKDIR /app
 COPY package.json ./
 COPY yarn.lock ./
