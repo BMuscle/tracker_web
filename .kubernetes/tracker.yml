@@ -248,11 +248,12 @@ metadata:
   name: tracker-rails
   namespace: tracker
 spec:
-  type: ClusterIP
+  type: NodePort
   ports:
   - name: "rails-port"
     protocol: "TCP"
     port: 3000
     targetPort: 3000
+    nodePort: 30081
   selector:
     app: tracker-rails
