@@ -99,7 +99,7 @@ spec:
             - /bin/bash
           args:
             - -c
-            - bundle exec rails s -b 0.0.0.0
+            - bundle exec rails db:migrate && bundle exec rails s -b 0.0.0.0
           env:
             - name: RAILS_ENV
               value: production
