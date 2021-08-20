@@ -28,6 +28,7 @@
 
 /mysql-data/*
 /influx_db/data/*
+/redis-data/*
 
 # Ignore config file
 /config/database.yml

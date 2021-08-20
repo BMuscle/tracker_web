@@ -57,6 +57,27 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  name: tracker-redis
+  namespace: tracker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tracker-redis
+  template:
+    metadata:
+      labels:
+        app: tracker-redis
+    spec:
+      containers:
+        - name: tracker-redis-container
+          image: redis:latest
+          ports:
+            - containerPort: 6379
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
   name: tracker-influxdb
   namespace: tracker
 spec:
@@ -108,6 +129,11 @@ spec:
                 secretKeyRef:
                   name: tracker-secret
                   key: RAILS_MASTER_KEY
+            - name: REDIS_URL
+              valueFrom:
+                secretKeyRef:
+                  name: tracker-secret
+                  key: REDIS_URL
             - name: TRACKER_DATABASE_DATABASE
               valueFrom:
                 secretKeyRef:
@@ -215,6 +241,21 @@ spec:
     targetPort: 3306
   selector:
     app: tracker-mysql
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tracker-redis
+  namespace: tracker
+spec:
+  type: ClusterIP
+  ports:
+  - name: "redis-port"
+    protocol: "TCP"
+    port: 6379
+    targetPort: 6379
+  selector:
+    app: tracker-redis
 ---
 apiVersion: v1
 kind: Service
