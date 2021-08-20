@@ -5,6 +5,7 @@ RUN apk update && \
 ENV PATH $HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH
 ENV VUE_APP_BACK_END_API_URL=http://192.168.11.100:30081
 ENV VUE_APP_FRONT_END_URL=http://192.168.11.100:30080
+ENV VUE_APP_BACK_END_ACTIONCABLE_API_URL=ws://192.168.11.100:30081
 WORKDIR /app
 COPY package.json ./
 COPY yarn.lock ./
