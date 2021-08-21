@@ -63,11 +63,11 @@ pipeline {
               }
               def testImage = docker.build("test-image", "./.jenkins/rails")
               testImage.inside("--link ${c.id}:db --link ${influx_db.id}:influx_db -e HOME=\"/tmp/bundler/${JOB_NAME}/${BUILD_NUMBER}\"") {
-                  sh 'while ! curl -XGET "influx_db:8086/health"; do sleep 1; done'
-                  sh 'bundle config set path "./vendor/bundle" && bundle install --without development && bundle exec rails db:create db:migrate RAILS_ENV=test'
-                  sh 'bundle exec rails s -b localhost -e test -d'
-                  sh 'cd ./front && yarn install'
-                  sh 'cd ./front && timeout --kill-after=10 5m yarn test:e2e_cli'
+                sh 'while ! curl -XGET "influx_db:8086/health"; do sleep 1; done'
+                sh 'bundle config set path "./vendor/bundle" && bundle install --without development && bundle exec rails db:create db:migrate RAILS_ENV=test'
+                sh 'bundle exec rails s -b localhost -e test -d'
+                sh 'cd ./front && yarn install'
+                sh 'cd ./front && timeout --kill-after=10 5m yarn test:e2e_cli'
               }
             }
           }
