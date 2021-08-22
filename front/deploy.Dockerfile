@@ -5,7 +5,7 @@ RUN apk update && \
 ENV PATH $HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH
 ENV VUE_APP_BACK_END_API_URL=https://bmuscle.ddns.net/tracker_rails
 ENV VUE_APP_FRONT_END_URL=https://bmuscle.ddns.net/tracker
-ENV VUE_APP_BACK_END_ACTIONCABLE_API_URL=https://bmuscle.ddns.net/tracker_rails
+ENV VUE_APP_BACK_END_ACTIONCABLE_API_URL=wss://bmuscle.ddns.net/tracker_rails
 WORKDIR /app
 COPY package.json ./
 COPY yarn.lock ./
