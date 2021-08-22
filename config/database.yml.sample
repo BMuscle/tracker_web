@@ -53,4 +53,4 @@ production:
   <<: *default
   database: <%= ENV['TRACKER_DATABASE_DATABASE'] ||= 'tracker_web_production' %>
   username: <%= ENV['TRACKER_DATABASE_USERNAME'] ||= 'tracker_web' %>
-  password: <%= ENV['TRACKER_WEB_DATABASE_PASSWORD'] %>
+  password: <%= ENV['TRACKER_DATABASE_PASSWORD'] %>
