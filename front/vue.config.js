@@ -2,7 +2,7 @@ module.exports = {
   transpileDependencies: [
     'vuetify'
   ],
-
+  publicPath: '/tracker',
   pluginOptions: {
     i18n: {
       locale: 'ja',
