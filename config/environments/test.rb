@@ -63,4 +63,5 @@ Rails.application.configure do
 
   # email
   config.action_mailer.default_url_options = { host: 'localhost:8080' }
+  config.smtp['from'] = 'from@example.com'
 end

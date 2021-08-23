@@ -30,6 +30,7 @@ RSpec/NestedGroups:
 Metrics/BlockLength:
   Exclude:
     - 'spec/**/*'
+    - 'config/environments/*'
 Style/AsciiComments:
   Enabled: false
 Rails/LexicallyScopedActionFilter:

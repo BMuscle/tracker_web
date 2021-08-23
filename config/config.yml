@@ -8,4 +8,7 @@ tracker:
     org: <%= ENV['INFLUX_DB_ORG'] %>
     bucket: <%= ENV['INFLUX_DB_BUCKET'] %>
     test_bucket: <%= ENV['INFLUX_DB_TEST_BUCKET'] ||= 'tracker_test_db' %>
-
+  smtp:
+    domain: <%= ENV['TRACKER_SMTP_DOMAIN'] %>
+    password: <%= ENV['TRACKER_SMTP_PASSWORD'] %>
+    from: <%= ENV['TRACKER_SMTP_FROM'] %>
