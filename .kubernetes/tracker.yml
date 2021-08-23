@@ -169,6 +169,21 @@ spec:
                 secretKeyRef:
                   name: tracker-secret
                   key: TRACKER_FRONT_URL
+            - name: TRACKER_SMTP_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: tracker-secret
+                  key: TRACKER_SMTP_PASSWORD
+            - name: TRACKER_SMTP_DOMAIN
+              valueFrom:
+                secretKeyRef:
+                  name: tracker-secret
+                  key: TRACKER_SMTP_DOMAIN
+            - name: TRACKER_SMTP_FROM
+              valueFrom:
+                secretKeyRef:
+                  name: tracker-secret
+                  key: TRACKER_SMTP_FROM
             - name: INFLUX_DB_HOST
               valueFrom:
                 secretKeyRef:

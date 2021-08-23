@@ -40,6 +40,7 @@ module TrackerWeb
     config.allow_origins = yaml_file['allow_origins']
     config.front_url = yaml_file['front_url']
     config.influx_db = yaml_file['influx_db']
+    config.smtp = yaml_file['smtp']
 
     # allow action_cable
     config.action_cable.allowed_request_origins = config.allow_origins
