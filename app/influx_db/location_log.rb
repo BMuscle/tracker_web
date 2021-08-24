@@ -6,7 +6,8 @@ class LocationLog < InfluxDb::Base
     return false unless call_write(game, logs)
 
     true
-  rescue StandardError
+  rescue StandardError => e
+    logger.error e.full_message
     false
   end
 
