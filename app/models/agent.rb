@@ -9,7 +9,7 @@ class Agent < ApplicationRecord
 
   validates :user_id, uniqueness: true
   validates :guid, uniqueness: true
-  validates :token, presence: :true
+  validates :token, presence: true
 
   attribute :token, :string, default: -> { SecureRandom.urlsafe_base64(32) }
 
