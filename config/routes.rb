@@ -30,5 +30,6 @@ Rails.application.routes.draw do
     resources :locations, only: %i[create]
     post '/log_in', to: 'users#log_in'
     resources :teams, only: %i[index show]
+    resources :rooms, only: %i[index show]
   end
 end

@@ -1,0 +1,5 @@
+# frozen_string_literal: true
+
+{
+  rooms: @rooms.include_users_hash
+}
