@@ -29,5 +29,6 @@ Rails.application.routes.draw do
   namespace :agent_api do
     resources :locations, only: %i[create]
     post '/log_in', to: 'users#log_in'
+    resources :teams, only: %i[index show]
   end
 end

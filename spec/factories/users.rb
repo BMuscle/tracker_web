@@ -9,5 +9,11 @@ FactoryBot.define do
     trait :confirmed do
       after(:create, &:confirm)
     end
+
+    trait :with_agent do
+      after(:create) do |user|
+        FactoryBot.create(:agent, user: user)
+      end
+    end
   end
 end
