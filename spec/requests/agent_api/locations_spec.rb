@@ -10,14 +10,17 @@ RSpec.describe 'AgentApi::Locations', type: :request, use_influx: true do
 
     let(:request) do
       post agent_api_locations_path,
-           params: { location: { logs: logs }, user_id: user_id, game_id: game_id, team_id: team_id }
+           params: { location: { logs: logs }, agent_guid: agent_guid, token: token, game_id: game_id,
+                     team_id: team_id }
     end
 
     context 'logが1件の場合' do
-      let(:game) { create(:game, :other_team_game) }
+      let(:game) { create(:game, :other_team_game).tap { |game| Agent.create(user: game.team.user) } }
       let(:game_id) { game.id }
       let(:team_id) { game.team_id }
       let(:user_id) { game.team.user.id }
+      let(:agent_guid) { game.team.user.agent.guid }
+      let(:token) { game.team.user.agent.token }
       let(:logs) { [{ time: Time.parse('2020-01-01T00:00:00Z').iso8601, latitude: '10.001', longitude: '10.001' }] }
 
       before do
@@ -34,10 +37,12 @@ RSpec.describe 'AgentApi::Locations', type: :request, use_influx: true do
     end
 
     context 'logが複数件の場合' do
-      let(:game) { create(:game, :other_team_game) }
+      let(:game) { create(:game, :other_team_game).tap { |game| Agent.create(user: game.team.user) } }
       let(:game_id) { game.id }
       let(:team_id) { game.team_id }
       let(:user_id) { game.team.user.id }
+      let(:agent_guid) { game.team.user.agent.guid }
+      let(:token) { game.team.user.agent.token }
       let(:logs) do
         [
           { time: Time.parse('2020-01-01t00:00:00z').iso8601, latitude: '10.001', longitude: '20.001' },
@@ -59,10 +64,12 @@ RSpec.describe 'AgentApi::Locations', type: :request, use_influx: true do
     end
 
     context 'logが0件の場合' do
-      let(:game) { create(:game, :other_team_game) }
+      let(:game) { create(:game, :other_team_game).tap { |game| Agent.create(user: game.team.user) } }
       let(:game_id) { game.id }
       let(:team_id) { game.team_id }
       let(:user_id) { game.team.user.id }
+      let(:agent_guid) { game.team.user.agent.guid }
+      let(:token) { game.team.user.agent.token }
       let(:logs) { [] }
 
       before do
@@ -80,10 +87,12 @@ RSpec.describe 'AgentApi::Locations', type: :request, use_influx: true do
 
     context 'ユーザと関係ないgame_idを指定した場合' do
       let(:logs) { [{ time: Time.parse('2020-01-01T00:00:00Z').iso8601, latitude: '10.001', longitude: '10.001' }] }
-      let(:team) { create(:team, :other_team) }
+      let(:team) { create(:team, :other_team).tap { |team| Agent.create(user: team.user) } }
       let(:team_id) { team.id }
       let(:game_id) { create(:game, :other_team_game).id }
       let(:user_id) { team.user.id }
+      let(:agent_guid) { team.user.agent.guid }
+      let(:token) { team.user.agent.token }
 
       it 'RecordNotFoundが発生すること' do
         expect { request }.to raise_error(ActiveRecord::RecordNotFound)
@@ -93,9 +102,11 @@ RSpec.describe 'AgentApi::Locations', type: :request, use_influx: true do
     context '存在しないgame_idを指定した場合' do
       let(:logs) { [{ time: Time.parse('2020-01-01T00:00:00Z').iso8601, latitude: '10.001', longitude: '10.001' }] }
       let(:game_id) { 0 }
-      let(:team) { create(:team, :other_team) }
+      let(:team) { create(:team, :other_team).tap { |team| Agent.create(user: team.user) } }
       let(:team_id) { team.id }
       let(:user_id) { team.user.id }
+      let(:agent_guid) { team.user.agent.guid }
+      let(:token) { team.user.agent.token }
 
       it 'RecordNotFoundが発生すること' do
         expect { request }.to raise_error(ActiveRecord::RecordNotFound)
