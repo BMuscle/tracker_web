@@ -11,7 +11,7 @@ module ApplicationCable
     private
 
     def find_verified_user
-      verified_user = env['warden'].user
+      verified_user = env['warden'].user || Agent.find_by(guid: params[:agent_guid], token: params[:token])&.user
       verified_user || reject_unauthorized_connection
     end
   end
