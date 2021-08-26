@@ -11,8 +11,7 @@ module AgentApi
     private
 
     def authenticate_agent
-      # 機器認証を追加
-      @current_user = User.find(params[:user_id])
+      @current_user = Agent.find_by!(guid: params[:agent_guid], token: params[:token]).user
     end
   end
 end

@@ -8,6 +8,7 @@ class User < ApplicationRecord
   has_many :participating_teams, through: :team_users, source: :team
   has_one :user_in_room, dependent: :destroy
   has_one :current_room, through: :user_in_room, source: :room
+  has_one :agent, dependent: :destroy
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable, :confirmable
 
@@ -23,5 +24,3 @@ class User < ApplicationRecord
     Team.broadcast_rooms(team_id, 'leaved')
   end
 end
-
-# 一通りはできたが、連続でやったり高速でやると心配、高速化も検討する
