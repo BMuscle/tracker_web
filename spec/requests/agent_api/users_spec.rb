@@ -5,8 +5,7 @@ require 'rails_helper'
 RSpec.describe 'AgentApi::Users', type: :request do
   describe 'POST /log_in' do
     subject(:request) do
-      post '/agent_api/log_in', params: { user: { email: email, password: password } },
-                                headers: { 'X-Requested-With' => 'XMLHttpRequest' }
+      post '/agent_api/log_in', params: { user: { email: email, password: password } }
     end
 
     let(:user) { create(:user, :confirmed, password: 'password', password_confirmation: 'password') }

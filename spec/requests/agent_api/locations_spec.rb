@@ -10,8 +10,8 @@ RSpec.describe 'AgentApi::Locations', type: :request, use_influx: true do
 
     let(:request) do
       post agent_api_locations_path,
-           params: { location: { logs: logs }, agent_guid: agent_guid, token: token, game_id: game_id,
-                     team_id: team_id }
+           params: { location: { logs: logs }, game_id: game_id, team_id: team_id },
+           headers: agent_headers(agent_guid, token)
     end
 
     context 'logが1件の場合' do

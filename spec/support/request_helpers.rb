@@ -13,5 +13,9 @@ module Requests
       post log_in_path, params: { user: { email: user.email, password: password } },
                         headers: { 'X-Requested-With' => 'XMLHttpRequest' }
     end
+
+    def agent_headers(guid, token)
+      { TRACKER_AGENT_GUID: guid, TRACKER_AGENT_TOKEN: token, 'Accept' => 'application/json' }
+    end
   end
 end

@@ -11,7 +11,11 @@ module AgentApi
     private
 
     def authenticate_agent
-      @current_user = Agent.find_by!(guid: params[:agent_guid], token: params[:token]).user
+      @current_user = Agent.find_by!(agent_params).user
+    end
+
+    def agent_params
+      { guid: request.headers['TRACKER_AGENT_GUID'], token: request.headers['TRACKER_AGENT_TOKEN'] }
     end
   end
 end

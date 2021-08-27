@@ -6,8 +6,8 @@ RSpec.describe 'AgentApi::Rooms', type: :request do
   describe 'GET /rooms' do
     context '認証情報が正しい場合' do
       subject(:request) do
-        get agent_api_rooms_path(team_id: team_id, agent_guid: user.agent.guid, token: user.agent.token),
-            headers: { 'X-Requested-With' => 'XMLHttpRequest' }
+        get agent_api_rooms_path(team_id: team_id),
+            headers: agent_headers(user.agent.guid, user.agent.token)
       end
 
       let(:user) { create(:user, :confirmed, :with_agent) }
@@ -88,8 +88,8 @@ RSpec.describe 'AgentApi::Rooms', type: :request do
   describe 'GET /rooms/:id' do
     context '認証情報が正しい場合' do
       subject(:request) do
-        get agent_api_room_path(team_id: team_id, id: room_id, agent_guid: user.agent.guid, token: user.agent.token),
-            headers: { 'X-Requested-With' => 'XMLHttpRequest' }
+        get agent_api_room_path(team_id: team_id, id: room_id),
+            headers: agent_headers(user.agent.guid, user.agent.token)
       end
 
       let(:user) { create(:user, :confirmed, :with_agent) }

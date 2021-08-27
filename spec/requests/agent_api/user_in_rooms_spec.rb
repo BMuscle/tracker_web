@@ -11,7 +11,7 @@ RSpec.describe 'AgentApi::UserInRooms', type: :request do
                agent_guid: user.agent.guid,
                token: user.agent.token
              }.merge(params),
-             headers: { 'X-Requested-With' => 'XMLHttpRequest' }
+             headers: agent_headers(user.agent.guid, user.agent.token)
       end
 
       context 'ユーザが参加しているチームの場合' do

@@ -26,7 +26,7 @@ Rails.application.routes.draw do
   get '/user', to: 'users#show'
   post '/sign_up', to: 'users#sign_up'
 
-  namespace :agent_api do
+  namespace :agent_api, format: 'json' do
     resources :locations, only: %i[create]
     post '/log_in', to: 'users#log_in'
     resources :teams, only: %i[index show] do
