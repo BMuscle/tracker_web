@@ -6,8 +6,8 @@ RSpec.describe 'AgentApi::Teams', type: :request do
   describe 'GET /teams' do
     context '認証情報が正しい場合' do
       subject(:request) do
-        get agent_api_teams_path(agent_guid: user.agent.guid, token: user.agent.token),
-            headers: { 'X-Requested-With' => 'XMLHttpRequest' }
+        get agent_api_teams_path,
+            headers: agent_headers(user.agent.guid, user.agent.token)
       end
 
       let(:user) { create(:user, :confirmed, :with_agent) }
@@ -43,8 +43,8 @@ RSpec.describe 'AgentApi::Teams', type: :request do
 
     context '認証情報が正しくない場合' do
       subject(:request) do
-        get agent_api_teams_path(agent_guid: 'xxxxxx', token: 'xxxxx'),
-            headers: { 'X-Requested-With' => 'XMLHttpRequest' }
+        get agent_api_teams_path,
+            headers: agent_headers('xxx', 'xxx')
       end
 
       it 'RecordNotFoundが起きること' do
@@ -56,8 +56,8 @@ RSpec.describe 'AgentApi::Teams', type: :request do
   describe 'GET /teams/:id' do
     context '認証情報が正しい場合' do
       subject(:request) do
-        get agent_api_team_path(id: team_id, agent_guid: user.agent.guid, token: user.agent.token),
-            headers: { 'X-Requested-With' => 'XMLHttpRequest' }
+        get agent_api_team_path(id: team_id),
+            headers: agent_headers(user.agent.guid, user.agent.token)
       end
 
       let(:user) { create(:user, :confirmed, :with_agent) }
@@ -94,8 +94,8 @@ RSpec.describe 'AgentApi::Teams', type: :request do
 
     context '認証情報が正しくない場合' do
       subject(:request) do
-        get agent_api_team_path(id: team_id, agent_guid: 'xxxx', token: 'xxxx'),
-            headers: { 'X-Requested-With' => 'XMLHttpRequest' }
+        get agent_api_team_path(id: team_id),
+            headers: agent_headers('xxx', 'xxx')
       end
 
       let(:user) { create(:user, :confirmed, :with_agent) }

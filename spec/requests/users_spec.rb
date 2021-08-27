@@ -4,7 +4,7 @@ require 'rails_helper'
 
 RSpec.describe 'Users', type: :request do
   describe 'GET /user' do
-    subject(:request) { get '/user', headers: { 'X-Requested-With' => 'XMLHttpRequest' } }
+    subject(:request) { get '/user', headers: xhr_headers }
 
     let(:user) { create(:user, :confirmed) }
 
@@ -29,7 +29,7 @@ RSpec.describe 'Users', type: :request do
 
   describe 'POST /sign_up' do
     subject(:request) do
-      post '/sign_up', params: { user: user_params }, headers: { 'X-Requested-With' => 'XMLHttpRequest' }
+      post '/sign_up', params: { user: user_params }, headers: xhr_headers
     end
 
     let(:user_params) { { email: email, password: password, password_confirmation: password_confirmation } }

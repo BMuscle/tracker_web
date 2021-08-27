@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.describe 'TeamInvites', type: :request do
   describe 'PUT /update' do
     subject(:request) do
-      put invite_teams_path(team_id), headers: { 'X-Requested-With' => 'XMLHttpRequest' }
+      put invite_teams_path(team_id), headers: xhr_headers
     end
 
     let(:user) { create(:user, :confirmed) }
@@ -68,7 +68,7 @@ RSpec.describe 'TeamInvites', type: :request do
   describe 'POST /invites' do
     subject(:request) do
       post invite_confirm_teams_path, params: { team: { guid: guid } },
-                                      headers: { 'X-Requested-With' => 'XMLHttpRequest' }
+                                      headers: xhr_headers
     end
 
     let(:user) { create(:user, :confirmed) }

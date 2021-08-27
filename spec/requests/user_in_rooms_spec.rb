@@ -8,7 +8,7 @@ RSpec.describe 'UserInRooms', type: :request do
       subject(:request) do
         post team_user_in_rooms_path(team_id),
              params: params,
-             headers: { 'X-Requested-With' => 'XMLHttpRequest' }
+             headers: xhr_headers
       end
 
       before do
@@ -115,7 +115,7 @@ RSpec.describe 'UserInRooms', type: :request do
       subject(:request) do
         post team_user_in_rooms_path(team_id),
              params: params,
-             headers: { 'X-Requested-With' => 'XMLHttpRequest' }
+             headers: xhr_headers
       end
 
       context 'ユーザが参加しているチームの場合' do
