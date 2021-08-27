@@ -21,20 +21,25 @@ RSpec.describe 'UserInRooms', type: :request do
         let(:team_id) { room.team_id }
         let(:params) { { room: { id: room.id } } }
 
-        before do
-          request
-        end
-
         it 'no contentが返ること' do
+          request
           expect(response).to have_http_status(:no_content)
         end
 
         it 'ルームにユーザが参加していること' do
+          request
           expect(room.users.exists?(id: room.team.user.id)).to eq(true)
+        end
+
+        it 'ユーザが参加したことがブロードキャストから送信されること' do
+          expect { request }.to have_broadcasted_to("user_in_room_#{team_id}").with(
+            message: 'participated',
+            rooms: [{ id: room.id, name: room.name, users: [{ id: user.id }] }]
+          )
         end
       end
 
-      context 'ユーザが既に参加しているチームの場合' do
+      context 'ユーザが既に参加しているルームの場合' do
         let(:room) { create(:room, :other_team_room) }
         let(:user) { room.team.user }
         let(:team_id) { room.team_id }
@@ -42,15 +47,30 @@ RSpec.describe 'UserInRooms', type: :request do
 
         before do
           UserInRoom.create(room: room, user: user)
-          request
         end
 
         it 'no contentが返ること' do
+          request
           expect(response).to have_http_status(:no_content)
         end
 
         it 'ルームにユーザが参加していること' do
+          request
           expect(room.users.exists?(id: room.team.user.id)).to eq(true)
+        end
+
+        it 'ユーザが退出したことがブロードキャストから送信されること' do
+          expect { request }.to have_broadcasted_to("user_in_room_#{team_id}").with(
+            message: 'leaved',
+            rooms: [{ id: room.id, name: room.name, users: [] }]
+          )
+        end
+
+        it 'ユーザが参加したことがブロードキャストから送信されること' do
+          expect { request }.to have_broadcasted_to("user_in_room_#{team_id}").with(
+            message: 'participated',
+            rooms: [{ id: room.id, name: room.name, users: [{ id: user.id }] }]
+          )
         end
       end
 
