@@ -4,7 +4,7 @@ require 'rails_helper'
 
 RSpec.describe 'Homes', type: :request do
   describe 'GET /index' do
-    subject(:request) { get homes_path, headers: { 'X-Requested-With' => 'XMLHttpRequest' } }
+    subject(:request) { get homes_path, headers: xhr_headers }
 
     it 'タイトルを含むレスポンスが返ること' do
       request

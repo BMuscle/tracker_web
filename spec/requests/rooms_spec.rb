@@ -4,7 +4,7 @@ require 'rails_helper'
 
 RSpec.describe 'Rooms', type: :request do
   describe 'GET /rooms' do
-    subject(:request) { get team_rooms_path(team_id: team_id), headers: { 'X-Requested-With' => 'XMLHttpRequest' } }
+    subject(:request) { get team_rooms_path(team_id: team_id), headers: xhr_headers }
 
     context 'ログインしている場合' do
       let(:user) { create(:user, :confirmed) }
@@ -84,7 +84,7 @@ RSpec.describe 'Rooms', type: :request do
 
   describe 'GET /rooms/:id' do
     subject(:request) do
-      get team_room_path(team_id: team_id, id: room_id), headers: { 'X-Requested-With' => 'XMLHttpRequest' }
+      get team_room_path(team_id: team_id, id: room_id), headers: xhr_headers
     end
 
     context 'ログインしている場合' do
@@ -164,7 +164,7 @@ RSpec.describe 'Rooms', type: :request do
 
   describe 'POST /rooms' do
     subject(:request) do
-      post team_rooms_path(team_id: team_id), params: room_params, headers: { 'X-Requested-With' => 'XMLHttpRequest' }
+      post team_rooms_path(team_id: team_id), params: room_params, headers: xhr_headers
     end
 
     context 'ログインしている場合' do

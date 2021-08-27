@@ -113,11 +113,8 @@ RSpec.describe 'AgentApi::UserInRooms', type: :request do
     context '認証情報が正しくない場合' do
       subject(:request) do
         post agent_api_team_user_in_rooms_path(team_id),
-             params: {
-               agent_guid: 'xxx',
-               token: 'xxx'
-             }.merge(params),
-             headers: { 'X-Requested-With' => 'XMLHttpRequest' }
+             params: params,
+             headers: agent_headers('xxx', 'xxx')
       end
 
       context 'ユーザが参加しているチームの場合' do

@@ -73,8 +73,8 @@ RSpec.describe 'AgentApi::Rooms', type: :request do
 
     context '認証情報が正しくない場合' do
       subject(:request) do
-        get agent_api_rooms_path(team_id: team_id, agent_guid: 'xxxx', token: 'xxxx'),
-            headers: { 'X-Requested-With' => 'XMLHttpRequest' }
+        get agent_api_rooms_path(team_id: team_id),
+            headers: agent_headers('xxx', 'xxx')
       end
 
       let(:team_id) { 1 }
@@ -153,8 +153,8 @@ RSpec.describe 'AgentApi::Rooms', type: :request do
 
     context '認証情報が正しくない場合' do
       subject(:request) do
-        get agent_api_room_path(team_id: team_id, id: room_id, agent_guid: 'xxxx', token: 'xxxx'),
-            headers: { 'X-Requested-With' => 'XMLHttpRequest' }
+        get agent_api_room_path(team_id: team_id, id: room_id),
+            headers: agent_headers('xxx', 'xxx')
       end
 
       let(:team_id) { 1 }

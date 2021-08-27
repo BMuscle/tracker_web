@@ -4,7 +4,7 @@ require 'rails_helper'
 
 RSpec.describe 'Teams', type: :request do
   describe 'GET /teams' do
-    subject(:request) { get teams_path, headers: { 'X-Requested-With' => 'XMLHttpRequest' } }
+    subject(:request) { get teams_path, headers: xhr_headers }
 
     let(:user) { create(:user, :confirmed) }
 
@@ -52,7 +52,7 @@ RSpec.describe 'Teams', type: :request do
 
   describe 'GET /teams/:id' do
     subject(:request) do
-      get team_path(team_id), headers: { 'X-Requested-With' => 'XMLHttpRequest' }
+      get team_path(team_id), headers: xhr_headers
     end
 
     let(:user) { create(:user, :confirmed) }
@@ -105,7 +105,7 @@ RSpec.describe 'Teams', type: :request do
 
   describe 'POST  /teams' do
     subject(:request) do
-      post teams_path, params: { team: team_params }, headers: { 'X-Requested-With' => 'XMLHttpRequest' }
+      post teams_path, params: { team: team_params }, headers: xhr_headers
     end
 
     let(:user) { create(:user, :confirmed) }

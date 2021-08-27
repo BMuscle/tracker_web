@@ -4,7 +4,7 @@ require 'rails_helper'
 
 RSpec.describe 'Sessions', type: :request do
   describe 'POST /log_in' do
-    subject(:request) { post log_in_path, params: params, headers: { 'X-Requested-With' => 'XMLHttpRequest' } }
+    subject(:request) { post log_in_path, params: params, headers: xhr_headers }
 
     let(:password) { 'password' }
     let(:user) { create(:user, :confirmed, password: password, password_confirmation: password) }
@@ -48,7 +48,7 @@ RSpec.describe 'Sessions', type: :request do
   end
 
   describe 'POST /log_out' do
-    subject(:request) { post log_out_path, headers: { 'X-Requested-With' => 'XMLHttpRequest' } }
+    subject(:request) { post log_out_path, headers: xhr_headers }
 
     let(:password) { 'password' }
     let(:user) { create(:user, :confirmed, password: password, password_confirmation: password) }
