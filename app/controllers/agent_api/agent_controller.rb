@@ -11,13 +11,12 @@ module AgentApi
     private
 
     def authenticate_agent
-      request.headers.sort.map { |k, v| logger.info "#{k}:#{v}" }
-      logger.info "Connect AgentGUID=#{request.headers['TRACKER_AGENT_GUID']}"
+      logger.info "Connect AgentGUID=#{request.headers['HTTP_TRACKER_AGENT_GUID']}"
       @current_user = Agent.find_by!(agent_params).user
     end
 
     def agent_params
-      { guid: request.headers['TRACKER_AGENT_GUID'], token: request.headers['TRACKER_AGENT_TOKEN'] }
+      { guid: request.headers['HTTP_TRACKER_AGENT_GUID'], token: request.headers['HTTP_TRACKER_AGENT_TOKEN'] }
     end
   end
 end
