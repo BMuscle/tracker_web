@@ -19,7 +19,7 @@ module Requests
     end
 
     def agent_headers(guid, token)
-      { TRACKER_AGENT_GUID: guid, TRACKER_AGENT_TOKEN: token, 'Accept' => 'application/json' }
+      { HTTP_TRACKER_AGENT_GUID: guid, HTTP_TRACKER_AGENT_TOKEN: token, 'Accept' => 'application/json' }
     end
   end
 end
