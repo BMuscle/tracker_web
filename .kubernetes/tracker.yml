@@ -232,6 +232,8 @@ spec:
                 secretKeyRef:
                   name: tracker-secret
                   key: INFLUX_DB_BUCKET
+            - name: RAILS_LOG_TO_STDOUT
+              value: 'true'
 ---
 apiVersion: apps/v1
 kind: Deployment
