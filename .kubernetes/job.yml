@@ -1,28 +1,20 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: batch/v1
+kind: Job
 metadata:
-  name: tracker-rails
+  name: migrate
   namespace: tracker
 spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: tracker-rails
   template:
-    metadata:
-      labels:
-        app: tracker-rails
     spec:
+      restartPolicy: Never
       containers:
-        - name: tracker-rails-container
+        - name: migrate
           image: rk221/tracker_rails
-          ports:
-            - containerPort: 3000
           command:
             - /bin/bash
           args:
             - -c
-            - bundle exec rails s -b 0.0.0.0
+            - bundle exec rails db:migrate
           env:
             - name: RAILS_ENV
               value: production
@@ -108,56 +100,3 @@ spec:
                   key: INFLUX_DB_BUCKET
             - name: RAILS_LOG_TO_STDOUT
               value: enabled
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: tracker-front
-  namespace: tracker
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: tracker-front
-  template:
-    metadata:
-      labels:
-        app: tracker-front
-    spec:
-      containers:
-        - name: tracker-front-container
-          image: rk221/tracker_front
-          ports:
-            - containerPort: 80
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: tracker-front
-  namespace: tracker
-spec:
-  type: NodePort
-  ports:
-  - name: "front-port"
-    protocol: "TCP"
-    port: 80
-    targetPort: 80
-    nodePort: 30080
-  selector:
-    app: tracker-front
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: tracker-rails
-  namespace: tracker
-spec:
-  type: NodePort
-  ports:
-  - name: "rails-port"
-    protocol: "TCP"
-    port: 3000
-    targetPort: 3000
-    nodePort: 30081
-  selector:
-    app: tracker-rails

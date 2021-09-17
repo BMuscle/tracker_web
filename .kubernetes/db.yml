@@ -1,0 +1,163 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tracker-mysql
+  namespace: tracker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tracker-mysql
+  template:
+    metadata:
+      labels:
+        app: tracker-mysql
+    spec:
+      containers:
+        - name: tracker-mysql-container
+          image: mysql/mysql-server:8.0
+          args:
+            - --default-authentication-plugin=mysql_native_password
+          ports:
+            - containerPort: 3306
+          env:
+            - name: MYSQL_ROOT_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: tracker-secret
+                  key: MYSQL_ROOT_HOST
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: tracker-secret
+                  key: MYSQL_ROOT_PASSWORD
+            - name: MYSQL_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  name: tracker-secret
+                  key: TRACKER_DATABASE_DATABASE
+            - name: MYSQL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: tracker-secret
+                  key: TRACKER_DATABASE_USERNAME
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: tracker-secret
+                  key: TRACKER_DATABASE_PASSWORD
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tracker-redis
+  namespace: tracker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tracker-redis
+  template:
+    metadata:
+      labels:
+        app: tracker-redis
+    spec:
+      containers:
+        - name: tracker-redis-container
+          image: redis:latest
+          ports:
+            - containerPort: 6379
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tracker-influxdb
+  namespace: tracker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tracker-influxdb
+  template:
+    metadata:
+      labels:
+        app: tracker-influxdb
+    spec:
+      containers:
+        - name: tracker-influxdb-container
+          image: influxdb:2.0
+          ports:
+            - containerPort: 8086
+          env:
+            - name: DOCKER_INFLUXDB_INIT_MODE
+              value: setup
+            - name: DOCKER_INFLUXDB_INIT_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: tracker-secret
+                  key: INFLUD_DB_USERNAME
+            - name: DOCKER_INFLUXDB_INIT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: tracker-secret
+                  key: INFLUX_DB_PASSWORD
+            - name: DOCKER_INFLUXDB_INIT_ORG
+              valueFrom:
+                secretKeyRef:
+                  name: tracker-secret
+                  key: INFLUX_DB_ORG
+            - name: DOCKER_INFLUXDB_INIT_BUCKET
+              valueFrom:
+                secretKeyRef:
+                  name: tracker-secret
+                  key: INFLUX_DB_BUCKET
+            - name: DOCKER_INFLUXDB_INIT_ADMIN_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: tracker-secret
+                  key: INFLUX_DB_TOKEN
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tracker-mysql
+  namespace: tracker
+spec:
+  type: ClusterIP
+  ports:
+  - name: "mysql-port"
+    protocol: "TCP"
+    port: 3306
+    targetPort: 3306
+  selector:
+    app: tracker-mysql
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tracker-redis
+  namespace: tracker
+spec:
+  type: ClusterIP
+  ports:
+  - name: "redis-port"
+    protocol: "TCP"
+    port: 6379
+    targetPort: 6379
+  selector:
+    app: tracker-redis
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tracker-influxdb
+  namespace: tracker
+spec:
+  type: ClusterIP
+  ports:
+  - name: "influxdb-port"
+    protocol: "TCP"
+    port: 8086
+    targetPort: 8086
+  selector:
+    app: tracker-influxdb
